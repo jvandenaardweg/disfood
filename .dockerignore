@@ -1,0 +1,9 @@
+.idea
+.git
+.github
+.env
+Dockerfile
+docker-compose.yml
+docker-compose.*.yml
+*.log
+node_modules

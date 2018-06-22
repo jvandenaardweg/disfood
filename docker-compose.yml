@@ -1,0 +1,14 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    env_file: .env
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:alpine
+    ports:
+      - "6381:6379"
+      # Port 6379 is used within the container, use that in your .env file
+      # Port 6381 is opened on your host.
+      # Use port 6381 to connect by using a Redis client like Medis
