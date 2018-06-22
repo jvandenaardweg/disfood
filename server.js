@@ -41,10 +41,6 @@ app.get('/api/recipes', async function(req, res){
         })
       })
 
-      // possibleLikedRecipes.forEach(recipe => {
-      //   console.log(recipe.id, recipe.title)
-      // })
-
       console.log('Total matches:', possibleLikedRecipes.length, 'of', recipes.length, 'recipes')
 
       if (possibleLikedRecipes.length > limit) {

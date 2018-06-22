@@ -1,15 +1,24 @@
 <template>
   <div>
-    <input type="text" name="excludeIngredient" v-model="excludeIngredient" placeholder="Exclude ingredient" />
-    <button type="button" @click.prevent="handleClear" class="btn">Clear</button>
-    <button type="button" @click.prevent="handleGet" class="btn">Get</button>
+    <button type="button" class="btn btn-settings" @click.prevent="showSettings = !showSettings">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+        <path fill="#FFF" fill-rule="evenodd" d="M18.9 12a8.6 8.6 0 0 0 0-2l2.3-2c.2-.2.3-.5.1-.7l-2.2-3.8c-.1-.2-.4-.3-.6-.2l-2.8 1a8 8 0 0 0-1.8-1l-.5-3c0-.2-.2-.4-.5-.4H8.5c-.3 0-.5.2-.5.5l-.5 2.9-1.8 1-2.8-1a.5.5 0 0 0-.6.2L0 7.4c-.2.2-.1.5.1.7L2.5 10a8.7 8.7 0 0 0 0 2.2L.2 13.9c-.2.2-.3.5-.1.7l2.2 3.8c.1.2.4.3.6.2l2.8-1a8 8 0 0 0 1.8 1l.5 3c0 .2.2.4.5.4h4.4c.3 0 .5-.2.5-.5l.5-2.9 1.8-1 2.8 1c.2.1.5 0 .6-.2l2.2-3.8c.2-.2.1-.5-.1-.7L18.9 12zm-8.2 3a3.9 3.9 0 1 1 0-7.8 3.9 3.9 0 0 1 0 7.8z"/>
+      </svg>
+    </button>
 
-    <hr />
-    <button type="button" @click.prevent="handleRemoveIngredient(ingredient)" v-for="ingredient in excludedIngredients" :key="ingredient" class="btn">{{ ingredient }}</button>
-    <hr />
+    <div v-if="showSettings">
+      <input type="text" name="excludeIngredient" v-model="excludeIngredient" placeholder="Exclude ingredient" />
+      <button type="button" @click.prevent="handleClear" class="btn btn-primary">Clear</button>
+      <button type="button" @click.prevent="handleGet" class="btn btn-primary">Save</button>
+
+      <hr />
+      <button type="button" @click.prevent="handleRemoveIngredient(ingredient)" v-for="ingredient in excludedIngredients" :key="ingredient" class="btn">{{ ingredient }}</button>
+      <hr />
+    </div>
+
     <!-- <p v-if="isLoading">Loading...</p> -->
 
-    <div class="recipe" v-for="(recipe, index) in recipes" :key="recipe.id" :class="{'is-hidden': index > 0}">
+    <div class="recipe" v-for="(recipe, index) in recipes" :key="index" :class="{'is-visible': visibleIndex === index}">
       <div class="recipe__image">
 
         <img :src="recipe.imageLarge" :alt="recipe.title" />
@@ -32,12 +41,18 @@
             <strong>{{ recipe.servingsNumber }} {{ recipe.servingType }}</strong>
           </div>
         </div>
+
+        <p v-html="recipe.preparationSummary.join('<br /><br />')"></p>
+
+        <p v-html="recipe.ingredients.join('<br />')"></p>
+
+        <a :href="recipe.url">Bekijk op AH.nl</a>
       </div>
 
       <div class="recipe-footer">
-        <button type="button" class="btn btn-primary btn-block">Vorige</button>
+        <button type="button" class="btn btn-primary btn-block" @click.prevent="handlePrevious(index, recipes.length)">Vorige</button>
         <button type="button" class="btn btn-primary btn-block">Bekijk recept</button>
-        <button type="button" class="btn btn-primary btn-block">Volgende</button>
+        <button type="button" class="btn btn-primary btn-block" @click.prevent="handleNext(index, recipes.length)">Volgende</button>
       </div>
     </div>
   </div>
@@ -48,7 +63,9 @@
 export default {
   name: 'Recipes',
   data: () => ({
+    showSettings: false,
     recipes: [],
+    visibleIndex: 0,
     excludeIngredient: null,
     excludedIngredients: []
   }),
@@ -63,6 +80,20 @@ export default {
     this.getData()
   },
   methods: {
+    handleNext (index, total) {
+      // Get every tenth
+      if (index % 10 === 0) {
+        this.getMoreData()
+      }
+
+      if ((index + 1) < total) {
+        this.visibleIndex = (index + 1)
+      }
+    },
+    handlePrevious (index, total) {
+      const prevIndex = (index === 0) ? index : (index - 1)
+      this.visibleIndex = prevIndex
+    },
     handleRemoveIngredient (ingredient) {
       if (this.excludedIngredients.length < 2) {
         window.alert('Cannot remove')
@@ -84,9 +115,24 @@ export default {
       this.recipes = []
     },
     async getData () {
+      this.recipes = []
       this.isLoading = true
       try {
+        // TODO: send already included recipe Id's, so we won't get them again in the random array
         this.recipes = await fetch(`http://localhost:3000/api/recipes?excludedIngredients=${this.excludedIngredients.join(',')}&random=true`).then(result => result.json())
+        // this.recipes.push(...recipes) // TODO: if we keep using random, there could be double recipes in here
+      } catch (err) {
+        console.log(err)
+      } finally {
+        this.isLoading = false
+      }
+    },
+    async getMoreData () {
+      this.isLoading = true
+      try {
+        // TODO: send already included recipe Id's, so we won't get them again in the random array
+        const recipes = await fetch(`http://localhost:3000/api/recipes?excludedIngredients=${this.excludedIngredients.join(',')}&random=true`).then(result => result.json())
+        this.recipes.push(...recipes) // TODO: if we keep using random, there could be double recipes in here
       } catch (err) {
         console.log(err)
       } finally {
@@ -118,6 +164,11 @@ input[type="text"] {
 
 .recipe {
   position: relative;
+  display: none;
+
+  &.is-visible {
+    display: block;
+  }
 
 
   img {
@@ -211,7 +262,7 @@ input[type="text"] {
   border-bottom: 1px #D8D8D8 solid;
   padding-top: 10px;
   padding-bottom: 10px;
-  margin-bottom: 200px;
+  // margin-bottom: 200px;
 
   span, strong {
     display: block;
@@ -268,6 +319,26 @@ input[type="text"] {
       background: white;
       background: #E3E3E3;
     }
+  }
+
+}
+
+.btn-settings {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  border-radius: 3px;
+  background: rgba(#4A4A4A, 0.8);
+  color: #fff;
+  border: 0;
+  vertical-align: middle;
+  line-height: 50px;
+  z-index: 10;
+
+  svg {
+    height: 22px;
   }
 
 }

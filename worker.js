@@ -30,7 +30,7 @@ async function getAllRecipesIds () {
   const totalRecipes = await getTotalRecipes()
   const totalPages = Math.ceil(totalRecipes / recipesPerPage)
 
-  console.log(`We should crawl ${totalRecipes} recipes. T`)
+  console.log(`We should crawl ${totalRecipes} recipes.`)
   console.log(`We should do ${totalPages} requests to AH to first get all recipe Ids.`)
 
   await sleep(5000)
@@ -91,7 +91,8 @@ async function getAll () {
   const totalNewRecipeIds = recipesIds.length
 
   if (!totalNewRecipeIds) {
-    console.log('New new recipe Ids found. We stop!')
+    console.log('No new recipe Ids found. We stop!')
+    return false
   } else {
     console.log(`We only need to fetch ${recipesIds.length} recipe Ids. We already have the others in the database.`)
 
@@ -132,45 +133,4 @@ function createRecipe (recipe) {
   })
 }
 
-// getAll()
-// console.log(Recipe)
-// Recipe.findAll()
-// .then(recipe => console.log(recipe))
-
-// sequelize.query("SELECT * FROM `users`", { type: sequelize.QueryTypes.SELECT})
-//   .then(users => {
-//     // We don't need spread here, since only the results will be returned for select queries
-//   })
-
-
-function getPossibleRecipes () {
-  const excludeIngredients = ['asperges', 'ui', 'tomaat', 'tomaten', 'rucola', 'vijg', 'tonijn', 'vis', 'bloemkool', 'spinazie', 'mosselen', 'kaas', 'kraanwater', 'witte bonen', 'bruine bonen', 'biet']
-
-  // Just fetch all the recipes
-  // We have no handy way to query the DB with this way of determining ingredients
-  Recipe.findAll()
-  .then(recipes => {
-
-    const possibleLikedRecipes = recipes.filter(recipe => {
-      // Every ingredient must not match any ingredient the user does not like
-      return recipe.ingredients.every(ingredient => {
-        return excludeIngredients.every(excluded => {
-          return !ingredient.includes(excluded)
-        })
-      })
-    })
-
-    // Shuffle so we get a random result every time we request
-    // possibleLikedRecipes.sort((a, b) => 0.5 - Math.random())
-
-    // TODO: limit results
-    // note: pagination is not do-able with randomizing, maybe just randomize in the frontend?
-
-    possibleLikedRecipes.forEach(recipe => {
-      console.log(recipe.id, recipe.title)
-    })
-    console.log('Total matches:', possibleLikedRecipes.length, 'of', recipes.length, 'recipes')
-  })
-}
-
-// getPossibleRecipes()
+getAll()
