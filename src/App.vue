@@ -9,6 +9,8 @@
 </template>
 
 <style lang="scss">
+$max-width: 500px;
+
 html {
   box-sizing: border-box;
 }
@@ -27,7 +29,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   // text-align: center;
   color: #161616;
-  max-width: 500px;
+  max-width: $max-width;
   margin: 0 auto;
   font-size: 16px;
   line-height: 1.5;

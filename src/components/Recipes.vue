@@ -11,9 +11,11 @@
 
     <div class="recipe" v-for="(recipe, index) in recipes" :key="recipe.id" :class="{'is-hidden': index > 0}">
       <div class="recipe__image">
+
         <img :src="recipe.imageLarge" :alt="recipe.title" />
       </div>
       <div class="recipe__body">
+        <div class="recipe__rating">{{ recipe.averageRate }}</div>
         <h1>{{ recipe.title }}</h1>
 
         <div class="recipe-summary">
@@ -33,7 +35,9 @@
       </div>
 
       <div class="recipe-footer">
+        <button type="button" class="btn btn-primary btn-block">Vorige</button>
         <button type="button" class="btn btn-primary btn-block">Bekijk recept</button>
+        <button type="button" class="btn btn-primary btn-block">Volgende</button>
       </div>
     </div>
   </div>
@@ -103,6 +107,8 @@ export default {
 </script>
 
 <style lang="scss">
+$max-width: 500px;
+
 input[type="text"] {
   width: 100%;
   height: 50px;
@@ -148,6 +154,17 @@ input[type="text"] {
     top: 0;
     left: 0;
   }
+}
+
+.recipe__rating {
+  // position: absolute;
+  // bottom: 20px;
+  width: 100%;
+  color: #161616;
+  // z-index: 10;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .is-hidden {
@@ -218,5 +235,40 @@ input[type="text"] {
   bottom: 20px;
   padding: 0 20px;
   width: 100%;
+  left: 0;
+  right: 0;
+  max-width: $max-width;
+  margin: 0 auto;
+  display: flex;
+  // flex: 0 auto;
+
+  .btn {
+    flex: 0 0 50px;
+    height: 50px;
+    width: 100%;
+
+    &:nth-child(2) {
+      flex: 1;
+    }
+
+    &:first-child {
+      width: 50px;
+      padding: 0;
+      margin-right: 10px;
+      text-indent: -13337px;
+      border-radius: 100%;
+      background: #E3E3E3;
+    }
+    &:last-child {
+      width: 50px;
+      padding: 0;
+      margin-left: 10px;
+      text-indent: -13337px;
+      border-radius: 100%;
+      background: white;
+      background: #E3E3E3;
+    }
+  }
+
 }
 </style>
