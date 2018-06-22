@@ -118,7 +118,7 @@ export default {
     async getData () {
       this.recipes = []
       this.isLoading = true
-      const ingredients = (this.excludedIngredients) ? this.excludedIngredients.join(',') : null
+      const ingredients = (this.excludedIngredients.length) ? this.excludedIngredients.join(',') : null
 
       try {
         // TODO: send already included recipe Id's, so we won't get them again in the random array
@@ -132,7 +132,7 @@ export default {
     },
     async getMoreData () {
       this.isLoading = true
-      const ingredients = (this.excludedIngredients) ? this.excludedIngredients.join(',') : null
+      const ingredients = (this.excludedIngredients.length) ? this.excludedIngredients.join(',') : null
       try {
         // TODO: send already included recipe Id's, so we won't get them again in the random array
         const recipes = await fetch(`${this.recipesUrl}?excludedIngredients=${ingredients}&random=true`).then(result => result.json())
