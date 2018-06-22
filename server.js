@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000
 app.use(cors())
 
 // Serve frontend
-app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/dist'))
 
 // Serve API
 app.get('/api/recipes', async function(req, res){
