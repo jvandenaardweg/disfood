@@ -63,6 +63,7 @@
 export default {
   name: 'Recipes',
   data: () => ({
+    recipesUrl: (process.env.NODE_ENV === 'production') ? '/api/recipes' : 'http://localhost:3000/api/recipes',
     showSettings: false,
     recipes: [],
     visibleIndex: 0,
@@ -119,7 +120,7 @@ export default {
       this.isLoading = true
       try {
         // TODO: send already included recipe Id's, so we won't get them again in the random array
-        this.recipes = await fetch(`http://localhost:3000/api/recipes?excludedIngredients=${this.excludedIngredients.join(',')}&random=true`).then(result => result.json())
+        this.recipes = await fetch(`${this.recipesUrl}?excludedIngredients=${this.excludedIngredients.join(',')}&random=true`).then(result => result.json())
         // this.recipes.push(...recipes) // TODO: if we keep using random, there could be double recipes in here
       } catch (err) {
         console.log(err)
@@ -131,7 +132,7 @@ export default {
       this.isLoading = true
       try {
         // TODO: send already included recipe Id's, so we won't get them again in the random array
-        const recipes = await fetch(`http://localhost:3000/api/recipes?excludedIngredients=${this.excludedIngredients.join(',')}&random=true`).then(result => result.json())
+        const recipes = await fetch(`${this.recipesUrl}?excludedIngredients=${this.excludedIngredients.join(',')}&random=true`).then(result => result.json())
         this.recipes.push(...recipes) // TODO: if we keep using random, there could be double recipes in here
       } catch (err) {
         console.log(err)
