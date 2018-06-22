@@ -118,9 +118,11 @@ export default {
     async getData () {
       this.recipes = []
       this.isLoading = true
+      const ingredients = (this.excludedIngredients) ? this.excludedIngredients.join(',') : null
+
       try {
         // TODO: send already included recipe Id's, so we won't get them again in the random array
-        this.recipes = await fetch(`${this.recipesUrl}?excludedIngredients=${this.excludedIngredients.join(',')}&random=true`).then(result => result.json())
+        this.recipes = await fetch(`${this.recipesUrl}?excludedIngredients=${ingredients}&random=true`).then(result => result.json())
         // this.recipes.push(...recipes) // TODO: if we keep using random, there could be double recipes in here
       } catch (err) {
         console.log(err)
@@ -130,9 +132,10 @@ export default {
     },
     async getMoreData () {
       this.isLoading = true
+      const ingredients = (this.excludedIngredients) ? this.excludedIngredients.join(',') : null
       try {
         // TODO: send already included recipe Id's, so we won't get them again in the random array
-        const recipes = await fetch(`${this.recipesUrl}?excludedIngredients=${this.excludedIngredients.join(',')}&random=true`).then(result => result.json())
+        const recipes = await fetch(`${this.recipesUrl}?excludedIngredients=${ingredients}&random=true`).then(result => result.json())
         this.recipes.push(...recipes) // TODO: if we keep using random, there could be double recipes in here
       } catch (err) {
         console.log(err)
