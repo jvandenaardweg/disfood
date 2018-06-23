@@ -6,6 +6,16 @@ import './registerServiceWorker'
 
 Vue.config.productionTip = false
 
+router.beforeEach((to, from, next) => {
+  if (!localStorage.getItem('excludedIngredients') && !to.path.includes('onboarding')) {
+    next({
+      path: '/onboarding'
+    })
+  } else {
+    next()
+  }
+})
+
 new Vue({
   router,
   store,

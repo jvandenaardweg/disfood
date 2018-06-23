@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import About from './views/About.vue'
 import Settings from './views/Settings.vue'
 import Onboarding from './views/Onboarding.vue'
+import OnboardingStep from './views/OnboardingStep.vue'
 
 Vue.use(Router)
 
@@ -22,7 +23,15 @@ export default new Router({
     {
       path: '/onboarding',
       name: 'onboarding',
-      component: Onboarding
+      component: Onboarding,
+      redirect: '/onboarding/1',
+      children: [
+        {
+          path: ':step',
+          name: 'onboarding-step',
+          component: OnboardingStep
+        }
+      ]
     },
     {
       path: '/settings',
