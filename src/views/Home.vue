@@ -1,17 +1,27 @@
 <template>
   <div class="home">
-    <!-- <img src="../assets/logo.png"> -->
+    <btn-settings></btn-settings>
     <recipes></recipes>
   </div>
 </template>
 
 <script>
 import Recipes from '@/components/Recipes'
+import BtnSettings from '@/components/BtnSettings'
 
 export default {
   name: 'home',
   components: {
-    Recipes
+    Recipes,
+    BtnSettings
   }
 }
 </script>
+
+<style lang="scss">
+// .home {
+//   max-width: $max-width;
+//   margin: 0 auto;
+//   position: relative;
+// }
+</style>

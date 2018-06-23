@@ -5,7 +5,8 @@
   "scripts": {
     "start": "forever server.js",
     "worker": "node worker.js",
-    "dev": "nodemon worker.js",
+    "dev:server": "nodemon server.js",
+    "dev:worker": "nodemon worker.js",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",

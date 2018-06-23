@@ -15,7 +15,6 @@ app.use(express.static(__dirname + '/dist'))
 app.get('/api/recipes', async function(req, res){
   const limit = 20
   const dirtyExcludedIngredients = req.query.excludedIngredients
-  console.log(dirtyExcludedIngredients)
   const random = (req.query.random === "true") ? true : false
   const order = (random) ? { order: sequelize.random() } : {}
 

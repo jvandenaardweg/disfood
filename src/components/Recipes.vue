@@ -1,30 +1,14 @@
 <template>
   <div>
-    <button type="button" class="btn btn-settings" @click.prevent="showSettings = !showSettings">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
-        <path fill="#FFF" fill-rule="evenodd" d="M18.9 12a8.6 8.6 0 0 0 0-2l2.3-2c.2-.2.3-.5.1-.7l-2.2-3.8c-.1-.2-.4-.3-.6-.2l-2.8 1a8 8 0 0 0-1.8-1l-.5-3c0-.2-.2-.4-.5-.4H8.5c-.3 0-.5.2-.5.5l-.5 2.9-1.8 1-2.8-1a.5.5 0 0 0-.6.2L0 7.4c-.2.2-.1.5.1.7L2.5 10a8.7 8.7 0 0 0 0 2.2L.2 13.9c-.2.2-.3.5-.1.7l2.2 3.8c.1.2.4.3.6.2l2.8-1a8 8 0 0 0 1.8 1l.5 3c0 .2.2.4.5.4h4.4c.3 0 .5-.2.5-.5l.5-2.9 1.8-1 2.8 1c.2.1.5 0 .6-.2l2.2-3.8c.2-.2.1-.5-.1-.7L18.9 12zm-8.2 3a3.9 3.9 0 1 1 0-7.8 3.9 3.9 0 0 1 0 7.8z"/>
-      </svg>
-    </button>
 
-    <div v-if="showSettings">
-      <input type="text" name="excludeIngredient" v-model="excludeIngredient" placeholder="Exclude ingredient" />
-      <button type="button" @click.prevent="handleClear" class="btn btn-primary">Clear</button>
-      <button type="button" @click.prevent="handleGet" class="btn btn-primary">Save</button>
-
-      <hr />
-      <button type="button" @click.prevent="handleRemoveIngredient(ingredient)" v-for="ingredient in excludedIngredients" :key="ingredient" class="btn">{{ ingredient }}</button>
-      <hr />
-    </div>
-
-    <!-- <p v-if="isLoading">Loading...</p> -->
+    <loader v-if="isLoading && !recipes.length"></loader>
 
     <div class="recipe" v-for="(recipe, index) in recipes" :key="index" :class="{'is-visible': visibleIndex === index}">
       <div class="recipe__image">
-
-        <img :src="recipe.imageLarge" :alt="recipe.title" />
+        <img :src="recipe.imageMedium" :alt="recipe.title" />
       </div>
       <div class="recipe__body">
-        <div class="recipe__rating">{{ recipe.averageRate }}</div>
+        <!-- <div class="recipe__rating">{{ recipe.averageRate }}</div> -->
         <h1>{{ recipe.title }}</h1>
 
         <div class="recipe-summary">
@@ -46,13 +30,25 @@
 
         <p v-html="recipe.ingredients.join('<br />')"></p>
 
+        <div>
+          <button type="button" v-for="ingredient in recipe.ingredients" :key="ingredient">{{ ingredient }}</button>
+        </div>
+
         <a :href="recipe.url">Bekijk op AH.nl</a>
       </div>
 
       <div class="recipe-footer">
-        <button type="button" class="btn btn-primary btn-block" @click.prevent="handlePrevious(index, recipes.length)">Vorige</button>
-        <button type="button" class="btn btn-primary btn-block">Bekijk recept</button>
-        <button type="button" class="btn btn-primary btn-block" @click.prevent="handleNext(index, recipes.length)">Volgende</button>
+        <button type="button" class="btn btn-primary btn-block" @click.prevent="handlePrevious(index, recipes.length)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+          </svg>
+        </button>
+        <button type="button" class="btn btn-primary btn-block">Ingredienten</button>
+        <button type="button" class="btn btn-primary btn-block" @click.prevent="handleNext(index, recipes.length)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+          </svg>
+        </button>
       </div>
     </div>
   </div>
@@ -60,8 +56,13 @@
 </template>
 
 <script>
+import Loader from '@/components/Loader'
+
 export default {
   name: 'Recipes',
+  components: {
+    Loader
+  },
   data: () => ({
     recipesUrl: (process.env.NODE_ENV === 'production') ? '/api/recipes' : 'http://localhost:3000/api/recipes',
     showSettings: false,
@@ -94,17 +95,6 @@ export default {
     handlePrevious (index, total) {
       const prevIndex = (index === 0) ? index : (index - 1)
       this.visibleIndex = prevIndex
-    },
-    handleRemoveIngredient (ingredient) {
-      if (this.excludedIngredients.length < 2) {
-        window.alert('Cannot remove')
-        return
-      }
-      const index = this.excludedIngredients.indexOf(ingredient)
-      this.excludedIngredients.splice(index, 1)
-      this.excludeIngredient.replace(/`${ingredient}`/i, '')
-      this.saveInLocalStorage()
-      this.getData()
     },
     handleGet () {
       this.getData()
@@ -142,15 +132,6 @@ export default {
       } finally {
         this.isLoading = false
       }
-    },
-    saveInLocalStorage () {
-      window.localStorage.setItem('excludedIngredients', this.excludedIngredients)
-    }
-  },
-  watch: {
-    excludeIngredient (newValue, oldValue) {
-      this.excludedIngredients = newValue.split(',')
-      this.saveInLocalStorage()
     }
   }
 }
@@ -162,18 +143,18 @@ $max-width: 500px;
 input[type="text"] {
   width: 100%;
   height: 50px;
-  font-size: 16px;
+  font-size: 1.6rem;
   padding: 0 20px;
 }
 
 .recipe {
   position: relative;
   display: none;
+  padding-bottom: 10rem;
 
   &.is-visible {
     display: block;
   }
-
 
   img {
     width: 100%;
@@ -192,7 +173,7 @@ input[type="text"] {
   &:before {
     content: "Loading...";
     font-weight: bold;
-    font-size: 18px;
+    font-size: 1.8rem;
     height: 30px;
     width: 100px;
     position: absolute;
@@ -227,7 +208,7 @@ input[type="text"] {
 }
 
 .btn {
-  font-size: 16px;
+  font-size: 1.6rem;
   padding: 5px 10px;
   font-weight: bold;
   display: inline-block;
@@ -237,7 +218,7 @@ input[type="text"] {
   &.btn-primary {
     background-color: #0077FF;
     color: #ffffff;
-    font-size: 16px;
+    font-size: 1.6rem;
     height: 50px;
     padding: 0 20px;
     border: 0;
@@ -273,28 +254,29 @@ input[type="text"] {
   }
 
   span {
-    font-size: 14px;
+    font-size: 1.4rem;
     color: #9B9B9B
   }
 
   strong {
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: bold;
     color: #4A4A4A;
   }
 }
 
 .recipe-footer {
-  margin-top: 20px;
   position: fixed;
-  bottom: 20px;
-  padding: 0 20px;
+  bottom: 0;
+  padding: 2rem;
   width: 100%;
   left: 0;
   right: 0;
   max-width: $max-width;
   margin: 0 auto;
   display: flex;
+  background-color: $color-white;
+  box-shadow: 0 0px 10px rgba(0,0,0, 0.2);
   // flex: 0 auto;
 
   .btn {
@@ -310,7 +292,7 @@ input[type="text"] {
       width: 50px;
       padding: 0;
       margin-right: 10px;
-      text-indent: -13337px;
+      // text-indent: -13337px;
       border-radius: 100%;
       background: #E3E3E3;
     }
@@ -318,7 +300,7 @@ input[type="text"] {
       width: 50px;
       padding: 0;
       margin-left: 10px;
-      text-indent: -13337px;
+      // text-indent: -13337px;
       border-radius: 100%;
       background: white;
       background: #E3E3E3;
@@ -327,23 +309,4 @@ input[type="text"] {
 
 }
 
-.btn-settings {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  width: 50px;
-  height: 50px;
-  border-radius: 3px;
-  background: rgba(#4A4A4A, 0.8);
-  color: #fff;
-  border: 0;
-  vertical-align: middle;
-  line-height: 50px;
-  z-index: 10;
-
-  svg {
-    height: 22px;
-  }
-
-}
 </style>
