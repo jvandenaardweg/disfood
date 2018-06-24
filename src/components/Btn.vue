@@ -29,6 +29,18 @@ export default {
     cursor: inherit;
   }
 
+  span {
+    color: $color-black;
+    font-weight: bold;
+    font-size: 2rem;
+    display: inline-block;
+    position: relative;
+    top: 0.1rem;
+    margin-left: 0.5rem;
+  }
+
+
+
   &.btn-primary {
     background-color: #0077FF;
     color: #ffffff;
@@ -38,6 +50,10 @@ export default {
     padding: 0 2rem;
     border: 0;
     border-radius: 0.3rem;
+
+    span {
+      color: $color-white;
+    }
   }
 
   &.btn-secondary {
@@ -53,16 +69,14 @@ export default {
     margin-right: 0.5rem;
     vertical-align: middle;
     line-height: 1.4rem;
+  }
 
-    span {
-      color: $color-black;
-      font-weight: bold;
-      font-size: 2rem;
-      display: inline-block;
-      position: relative;
-      top: 0.1rem;
-      margin-left: 0.5rem;
-    }
+  &.btn-small {
+    padding: 0.85rem 1.5rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    line-height: 1.4rem;
+    height: auto;
   }
 
   &.btn-block {

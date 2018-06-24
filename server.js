@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const Recipe = require('./database/').recipe
+const Ingredient = require('./database/').ingredient
 const sequelize = require('./database/').sequelize
 
 const port = process.env.PORT || 3000
@@ -12,6 +13,11 @@ app.use(cors())
 app.use(express.static(__dirname + '/dist'))
 
 // Serve API
+app.get('/api/ingredients', async function(req, res){
+  const ingredients = await Ingredient.findAll({ limit: 100 })
+  res.json(ingredients)
+})
+
 app.get('/api/recipes', async function(req, res){
   const limit = 20
 

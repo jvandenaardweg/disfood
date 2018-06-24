@@ -8,6 +8,9 @@
         </svg>
       </button>
     </form>
+    <div class="ingredient-suggestions">
+      <btn className="btn-primary btn-small" v-if="!excludedIngredients.includes(suggestion)" v-for="suggestion in suggestions" :label="suggestion" :key="suggestion" icon="+" @click.native="handleAddIngredient(suggestion)"></btn>
+    </div>
     <div class="user-ingredients" v-if="excludedIngredients.length">
       <div class="user-ingredients__body">
         <btn className="btn-secondary" :label="ingredient" icon="&times;" @click.native="handleRemoveIngredient(ingredient)" v-for="ingredient in excludedIngredients" :key="ingredient"></btn>
@@ -33,9 +36,14 @@ export default {
   },
   data: () => ({
     excludeIngredient: null,
-    excludedIngredients: []
+    excludedIngredients: [],
+    suggestions: ['spruitjes', 'witlof', 'andijvie']
   }),
   methods: {
+    handleAddIngredient (ingredient) {
+      // this.excludeIngredient = ingredient
+      this.excludedIngredients.push(ingredient)
+    },
     handleRemoveIngredient (ingredient) {
       const index = this.excludedIngredients.indexOf(ingredient)
       this.excludedIngredients.splice(index, 1)
@@ -105,11 +113,22 @@ export default {
   }
 }
 
+.ingredient-suggestions {
+  margin-top: 1rem;
+  border-bottom: 1px $gray-90 solid;
+  padding-bottom: 1rem;
+
+  .btn {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
 .user-ingredients {
   border-bottom: 1px $gray-90 solid;
   padding-bottom: 2rem;
-  border-top: 1px $gray-90 solid;
-  padding-top: 2rem;
+  // border-top: 1px $gray-90 solid;
+  // padding-top: 2rem;
   margin-top: 2rem;
 
   .user-ingredients__footer {
