@@ -32,10 +32,19 @@
 
         <h2>Ingredienten</h2>
         <table class="table">
-          <tr v-for="(ingredient, index) in recipe.ingredients" :key="index">
-            <td><button type="button">{{ ingredient }}</button></td>
+          <tr v-for="(ingredient, index) in recipe.ingredientsText" :key="index">
+            <!-- <td><button type="button">{{ ingredient }}</button></td> -->
+            <td>{{ ingredient }}</td>
           </tr>
         </table>
+
+        <h2>Voeg toe aan niet eten lijst</h2>
+        <div>
+          <btn-remove :label="ingredient" v-for="(ingredient, index) in recipe.ingredients" :key="index"></btn-remove>
+          <!-- <button type="button" class="badge" v-for="(ingredient, index) in recipe.ingredients" :key="index">
+            {{ ingredient }}
+          </button> -->
+        </div>
         <!-- <p v-html="recipe.ingredients.join('<br />')"></p> -->
 
         <!-- <div>
@@ -65,11 +74,13 @@
 
 <script>
 import Loader from '@/components/Loader'
+import BtnRemove from '@/components/BtnRemove'
 
 export default {
   name: 'Recipes',
   components: {
-    Loader
+    Loader,
+    BtnRemove
   },
   data: () => ({
     recipesUrl: (process.env.NODE_ENV === 'production') ? '/api/recipes' : 'http://localhost:3000/api/recipes',

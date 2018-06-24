@@ -47,7 +47,11 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.STRING // https://static.ah.nl/static/recepten/img_071515_Recipe_300.jpg // 300x300
     },
     ingredients: {
-      type: DataTypes.ARRAY(DataTypes.TEXT), // ['tomaat', 'komkommer']
+      type: DataTypes.ARRAY(DataTypes.TEXT), // ['tomaat', 'tomaten', 'komkommer', 'komkommers']
+      allowNull: false
+    },
+    ingredientsText: {
+      type: DataTypes.ARRAY(DataTypes.TEXT), // ['1 tomaat', '2 komkommers']
       allowNull: false
     },
     preparationSummary: {
@@ -70,6 +74,15 @@ module.exports = function (sequelize, DataTypes) {
       type: DataTypes.INTEGER // 590
     }
   })
+
+  Recipe.associate = function (models) {
+    Recipe.belongsTo(models.language, {
+      onDelete: 'RESTRICT'
+    })
+    Recipe.belongsTo(models.source, {
+      onDelete: 'RESTRICT'
+    })
+  }
 
   return Recipe
 }

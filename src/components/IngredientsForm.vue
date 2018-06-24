@@ -1,24 +1,29 @@
 <template>
-  <div>
+  <div class="ingredients-form">
     <form class="form-inline" @submit.prevent="handleSubmit">
-      <input type="text" class="form-control" name="excludeIngredient" v-model="excludeIngredient" placeholder="Bijvoorbeeld: spruiten" />
-      <button type="submit">
+      <input type="text" class="form-control" ref="excludeIngredientInput" name="excludeIngredient" v-model="excludeIngredient" placeholder="Bijvoorbeeld: spruiten" />
+      <button class="btn" type="submit">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
         </svg>
       </button>
     </form>
-    <div class="user-ingredients">
+    <div class="user-ingredients" v-if="excludedIngredients.length">
       <div class="user-ingredients__body">
-        <button type="button" class="badge" @click.prevent="handleRemoveIngredient(ingredient)" v-for="ingredient in excludedIngredients" :key="ingredient">{{ ingredient }} <span>&times;</span></button>
+        <btn className="btn-secondary" :label="ingredient" icon="&times;" @click.native="handleRemoveIngredient(ingredient)" v-for="ingredient in excludedIngredients" :key="ingredient"></btn>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import Btn from '@/components/Btn'
+
 export default {
   name: 'IngredientsForm',
+  components: {
+    Btn
+  },
   beforeMount () {
     const cachedExcludedIngredients = window.localStorage.getItem('excludedIngredients')
     if (cachedExcludedIngredients) {
@@ -42,9 +47,18 @@ export default {
         return
       }
 
+      if (this.excludeIngredient === 'vis') {
+        window.alert('Wees iets specifieker. Bijvoorbeeld: zalm, tonijn, kabeljouw of haring.')
+        return
+      } else if (this.excludeIngredient === 'vlees') {
+        window.alert('Wees iets specifieker. Bijvoorbeeld: gehakt, kip of hamburger.')
+        return
+      }
+
       this.excludedIngredients.push(this.excludeIngredient)
       this.saveInLocalStorage()
       this.excludeIngredient = null
+      this.$refs.excludeIngredientInput.focus()
       this.$emit('totalIngredients', this.excludedIngredients.length)
     },
     handleClear () {
@@ -55,6 +69,13 @@ export default {
     },
     saveInLocalStorage () {
       window.localStorage.setItem('excludedIngredients', this.excludedIngredients)
+    }
+  },
+  watch: {
+    excludeIngredient (newValue, oldValue) {
+      if (newValue) {
+        this.excludeIngredient = newValue.toLowerCase()
+      }
     }
   }
 }
@@ -74,6 +95,7 @@ export default {
     font-weight: bold;
     border-top-right-radius: 0.3rem;
     border-bottom-right-radius: 0.3rem;
+    display: block;
 
     svg {
       fill: $color-white;
@@ -82,6 +104,7 @@ export default {
     }
   }
 }
+
 .user-ingredients {
   border-bottom: 1px $gray-90 solid;
   padding-bottom: 2rem;
@@ -98,70 +121,14 @@ export default {
   }
 }
 
-.btn-back {
-  border-radius: 0.3rem;
-  height: 4.5rem;
-  width: 4.5rem;
-  line-height: 4.6rem;
-  background: $gray-20;
-  display: inline-block;
-  text-align: center;
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  color: $color-white;
-  font-weight: bold;
-  font-size: 4rem;
-  text-decoration: none;
-
-  svg {
-    fill: $color-white;
-    transform: rotate(-180deg);
-    height: 1.5rem;
-    position: relative;
-    top: 0.3rem;
-  }
-}
-
-.badge {
-  background-color: $color-secondary;
+.form-control {
+  height: 5rem;
+  padding: 0 2rem;
+  line-height: 5rem;
   color: $color-black;
-  display: inline-block;
-  padding: 0.85rem 1.5rem;
-  // height: 2rem;
+  background-color: $gray-90;
   border: 0;
-  border-radius: 0.3rem;
-  font-size: 1.4rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  margin-right: 0.5rem;
-  // margin-bottom: 0.5rem;
-  vertical-align: middle;
-  line-height: 1.4rem;
-
-  span {
-    color: $color-black;
-    font-weight: bold;
-    font-size: 2rem;
-    display: inline-block;
-    position: relative;
-    top: 0.1rem;
-    margin-left: 0.5rem;
-    // height: 1.5rem;
-
-  }
-
+  border-top-left-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
 }
-
-
-
-  .form-control {
-    height: 5rem;
-    padding: 0 2rem;
-    line-height: 5rem;
-    border-radius: 0.3rem;
-    color: $color-black;
-    background-color: $gray-90;
-    border: 0;
-  }
 </style>

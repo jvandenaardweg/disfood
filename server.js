@@ -14,14 +14,20 @@ app.use(express.static(__dirname + '/dist'))
 // Serve API
 app.get('/api/recipes', async function(req, res){
   const limit = 20
+
   const dirtyExcludedIngredients = req.query.excludedIngredients
+
   const random = (req.query.random === "true") ? true : false
   const order = (random) ? { order: sequelize.random() } : {}
 
   if (!dirtyExcludedIngredients) {
     return res.json({'message': 'invalid request'})
   } else {
+
     const excludeIngredients = dirtyExcludedIngredients.toLowerCase().split(',')
+    // TODO: create singular and plural ingredients based on the user input
+    // For example: ei > eieren, paprika > paprika's
+    // Also, "vis", should return in "zalm", "tonijn", "gamba's", "mosselen" etc...
 
     console.log('Getting all recipes...')
 

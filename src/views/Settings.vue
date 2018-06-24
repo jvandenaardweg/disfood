@@ -43,5 +43,31 @@ export default {
     text-align: center;
     font-weight: normal;
   }
+
+}
+
+.btn-back {
+  border-radius: 0.3rem;
+  height: 4.5rem;
+  width: 4.5rem;
+  line-height: 4.6rem;
+  background: $gray-20;
+  display: inline-block;
+  text-align: center;
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  color: $color-white;
+  font-weight: bold;
+  font-size: 4rem;
+  text-decoration: none;
+
+  svg {
+    fill: $color-white;
+    transform: rotate(-180deg);
+    height: 1.5rem;
+    position: relative;
+    top: 0.3rem;
+  }
 }
 </style>

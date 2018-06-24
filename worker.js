@@ -1,10 +1,12 @@
 require('dotenv').config()
 const fetch = require('node-fetch')
 const Recipe = require('./database/').recipe
+const Ingredient = require('./database/').ingredient
 const sequelize = require('./database/').sequelize
 const recipesPerPage = 100
 const transformRecipe = require('./transformers/recipe')
 
+// const RECIPES_SEARCH_URL= process.env.RECIPE_BASE_URL + `search?query=&size=${recipesPerPage}&filters=menugang:hoofdgerecht`
 const RECIPES_SEARCH_URL= process.env.RECIPE_BASE_URL + `search?query=&size=${recipesPerPage}&filters=menugang:hoofdgerecht`
 
 function sleep(ms) {
@@ -101,8 +103,36 @@ async function getAll () {
       for (var i = 0; i < totalRecipeIds; i++) {
         const recipeId = recipesIds[i]
         const recipe = await getRecipeById(recipeId)
+        const ingredients = recipe.ingredients
         console.log(`Got recipe ${i + 1} from ${totalRecipeIds}: ${recipe.title}`)
-  
+
+        // First, create the ingredients
+        for (var x = 0; x < ingredients.length; x++) {
+          console.log('Create ingredient for ', ingredients[x].description.singular)
+          await Ingredient.findOrCreate({
+            where: {
+              singular: ingredients[x].description.singular
+            },
+            defaults: {
+              singular: ingredients[x].description.singular,
+              plural: ingredients[x].description.plural,
+              quantityUnitSingular: (ingredients[x].quantityUnit) ? ingredients[x].quantityUnit.singular : null,
+              quantityUnitPlural: (ingredients[x].quantityUnit) ? ingredients[x].quantityUnit.plural : null,
+              languageId: 'NL' // TODO: make dynamic based on source
+            }
+          })
+          .spread((ingredient, created) => {
+            if (created) {
+              console.log(`Ingredient ${ingredient.singular} saved in database.`)
+            } else {
+              console.log(`Ingredient ${ingredient.singular} is already in the database. Skipping.`)
+            }
+
+            return created
+          })
+        }
+
+        // Then create the recipe
         const createdRecipe = await createRecipe(recipe)
         if (createdRecipe) console.log(`Saved ${recipe.id} in database.`)
       }
