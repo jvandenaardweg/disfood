@@ -1,7 +1,7 @@
 <template>
   <div class="ingredients-form">
     <form class="form-inline" @submit.prevent="handleSubmit">
-      <input type="text" class="form-control" ref="excludeIngredientInput" name="excludeIngredient" v-model="excludeIngredient" placeholder="Bijvoorbeeld: spruiten" required />
+      <input type="text" class="form-control" ref="excludeIngredientInput" name="excludeIngredient" v-model="excludeIngredient" autocomplete="off" @keydown="handleChange" placeholder="Bijvoorbeeld: spruiten" required />
       <button class="btn" type="submit">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -9,7 +9,9 @@
       </button>
     </form>
     <div class="ingredient-suggestions">
-      <btn className="btn-primary btn-small" v-if="!excludedIngredients.includes(suggestion)" v-for="suggestion in suggestions" :label="suggestion" :key="suggestion" icon="+" @click.native="handleAddIngredient(suggestion)"></btn>
+      <p v-if="!excludeIngredient">Begin met typen voor suggesties</p>
+      <btn className="btn-primary btn-small" v-if="excludeIngredient && !excludedIngredients.includes(excludeIngredient)" :label="excludeIngredient" icon="+" @click.native="handleAddIngredient(excludeIngredient)"></btn>
+      <btn className="btn-primary btn-small" v-if="excludeIngredient && !excludedIngredients.includes(suggestion) && excludeIngredient !== suggestion" v-for="suggestion in suggestions" :label="suggestion" :key="suggestion" icon="+" @click.native="handleAddIngredient(suggestion)"></btn>
     </div>
     <div class="user-ingredients" v-if="excludedIngredients.length">
       <div class="user-ingredients__body">
@@ -20,6 +22,7 @@
 </template>
 
 <script>
+import debounce from 'lodash/debounce'
 import Btn from '@/components/Btn'
 
 export default {
@@ -36,9 +39,18 @@ export default {
   data: () => ({
     excludeIngredient: null,
     excludedIngredients: [],
-    suggestions: ['spruitjes', 'witlof', 'andijvie', 'spinazie']
+    suggestions: []
+    // suggestions: ['spruitjes', 'witlof', 'andijvie', 'spinazie']
   }),
   methods: {
+    handleChange: debounce(async function (event) {
+      if (this.excludeIngredient && this.excludeIngredient.length > 3) {
+        const ingredientSuggestions = await this.$store.dispatch('filters/getIngredients', {
+          search: this.excludeIngredient
+        })
+        this.suggestions = ingredientSuggestions.map(ingredient => ingredient.singular).sort((a, b) => a.length - b.length)
+      }
+    }, 500),
     handleAddIngredient (ingredient) {
       this.excludedIngredients.push(ingredient)
     },
@@ -52,12 +64,14 @@ export default {
         return
       }
 
-      if (this.excludeIngredient === 'vis') {
+      if (this.excludeIngredient === 'vis' || this.excludeIngredient === 'vissen') {
         window.alert('Wees iets specifieker. Bijvoorbeeld: zalm, tonijn, kabeljouw of haring.')
         return
       } else if (this.excludeIngredient === 'vlees') {
         window.alert('Wees iets specifieker. Bijvoorbeeld: gehakt, kip of hamburger.')
         return
+      } else if (this.excludeIngredient === 'noten' || this.excludeIngredient === 'nootjes') {
+        window.alert(`Wees iets specifieker. Bijvoorbeeld: pinda, cashewnoten, amandelen of walnoten.`)
       }
 
       this.excludedIngredients.push(this.excludeIngredient)
@@ -78,6 +92,8 @@ export default {
     excludeIngredient (newValue, oldValue) {
       if (newValue) {
         this.excludeIngredient = newValue.toLowerCase()
+      } else {
+        this.suggestions = []
       }
     },
     excludedIngredients (newValue, oldValue) {
@@ -92,6 +108,10 @@ export default {
 </script>
 
 <style lang="scss">
+.ingredients-form {
+  margin-top: 2rem;
+}
+
 .form-inline {
   display: flex;
 
@@ -131,11 +151,16 @@ export default {
     margin-right: 0.5rem;
     margin-bottom: 0.5rem;
   }
+
+  p {
+    margin: 0 0 1.4rem 0;
+    color: $gray-60;
+  }
 }
 
 .user-ingredients {
-  border-bottom: 1px $gray-90 solid;
-  padding-bottom: 2rem;
+  // border-bottom: 1px $gray-90 solid;
+  // padding-bottom: 2rem;
   // border-top: 1px $gray-90 solid;
   // padding-top: 2rem;
   margin-top: 2rem;

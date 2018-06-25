@@ -139,7 +139,7 @@ async function getAll () {
     } catch (err) {
       console.log('Error fetching recipes by id')
       console.log(err)
-    }
+    } 
   }
 
 }
@@ -148,7 +148,7 @@ function createRecipe (recipe) {
   return Recipe
   .findOrCreate({
     where: {
-      sourceId: recipe.id
+      sourceRecipeId: recipe.id
     },
     defaults: transformRecipe(recipe)
   })

@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
         this.setDataValue('title', val.trim())
       }
     },
-    sourceId: {
+    sourceRecipeId: {
       type: DataTypes.INTEGER, // 1231231
       allowNull: false
     },

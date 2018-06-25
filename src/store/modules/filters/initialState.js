@@ -1,5 +1,7 @@
 export default () => {
   return {
-    excludedIngredients: []
+    excludedIngredients: [],
+    isLoading: null,
+    error: null
   }
 }

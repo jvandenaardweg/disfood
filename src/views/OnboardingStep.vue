@@ -187,7 +187,7 @@ export default {
 
 <style lang="scss">
 .onboarding {
-  padding: 2rem;
+  padding: 2rem 2rem 12rem 2rem;
 }
 
 .onboarding-step {
@@ -218,6 +218,7 @@ export default {
     width: 100%;
     padding: 2rem;
     max-width: $max-width;
+    background-color: $color-white;
 
     .btn {
       width: 100%;
