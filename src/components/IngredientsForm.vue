@@ -181,7 +181,7 @@ export default {
 .form-control {
   height: 5rem;
   padding: 0 2rem;
-  line-height: 5rem;
+  // line-height: 5rem;
   color: $color-black;
   background-color: $gray-90;
   border: 0;
