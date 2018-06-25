@@ -140,7 +140,7 @@ export default {
 
 .ingredient-suggestions {
   margin-top: 1rem;
-  border-bottom: 1px $gray-90 solid;
+  // border-bottom: 1px $gray-90 solid;
   padding-bottom: 1rem;
   overflow-x: scroll;
   overflow-y: hidden;
@@ -167,7 +167,7 @@ export default {
   // padding-bottom: 2rem;
   // border-top: 1px $gray-90 solid;
   // padding-top: 2rem;
-  margin-top: 2rem;
+  // margin-top: 1rem;
 
   .user-ingredients__footer {
     .btn {

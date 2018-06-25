@@ -35,6 +35,6 @@ body {
 
 h1 {
   font-family: 'Merriweather', Palatino, Georgia, serif;
-  font-size: 2.8rem;
+  font-size: 2.4rem;
 }
 </style>

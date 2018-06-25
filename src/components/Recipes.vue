@@ -30,13 +30,18 @@
 
         <p v-html="recipe.preparationSummary.join('<br /><br />')"></p>
 
-        <h2>Ingredienten</h2>
-        <table class="table">
-          <tr v-for="(ingredient, index) in recipe.ingredientsText" :key="index">
-            <!-- <td><button type="button">{{ ingredient }}</button></td> -->
-            <td>{{ ingredient }}</td>
-          </tr>
-        </table>
+        <section class="section ingredients" :class="{'is-fixed': showIngredients === recipe.id }">
+          <h2>Ingredienten</h2>
+          <h3>Met deze lijst kan je boodschappen doen bij jouw lokale Albert Heijn.</h3>
+          <table class="table">
+            <tr v-for="(ingredient, index) in recipe.ingredientsText" :key="index">
+              <!-- <td><button type="button">{{ ingredient }}</button></td> -->
+              <td>{{ ingredient }}</td>
+            </tr>
+          </table>
+
+          <btn v-if="showIngredients === recipe.id" className="btn-primary btn-block" @click.native="handleHideIngredients(recipe.id)" label="Terug naar recept"></btn>
+        </section>
 
         <h2>Voeg toe aan niet eten lijst</h2>
         <div class="recipe-ingredients-filters">
@@ -62,7 +67,7 @@
             <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
           </svg>
         </button>
-        <button type="button" class="btn btn-primary btn-block">Ingredienten</button>
+        <button type="button" class="btn btn-primary btn-block" @click.prevent="handleShowIngredients(recipe.id)">Ingredienten</button>
         <button type="button" class="btn btn-primary btn-block" @click.prevent="handleNext(index, recipes.length)">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
@@ -86,10 +91,12 @@ export default {
     Btn
   },
   data: () => ({
+    isLoading: null,
     recipesUrl: (process.env.NODE_ENV === 'production') ? '/api/recipes' : 'http://localhost:3000/api/recipes',
     showSettings: false,
     visibleIndex: 0,
-    excludeIngredient: null
+    excludeIngredient: null,
+    showIngredients: null
   }),
   mounted () {
     this.getData()
@@ -105,6 +112,12 @@ export default {
     }
   },
   methods: {
+    handleHideIngredients (recipeId) {
+      this.showIngredients = null
+    },
+    handleShowIngredients (recipeId) {
+      this.showIngredients = recipeId
+    },
     icon (ingredient) {
       if (!this.excludedIngredients.includes(ingredient)) {
         return '+'
@@ -370,6 +383,38 @@ input[type="text"] {
     }
   }
 
+}
+
+.ingredients {
+  display: none;
+
+  &.is-fixed {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: $color-white;
+    z-index: 20;
+    width: 100%;
+    padding: 2rem;
+    display: block;
+  }
+
+  h2 {
+    margin-bottom: 0;
+    font-family: 'Merriweather', Palatino, Georgia, serif;
+    font-size: 2.4rem;
+    text-align: center;
+  }
+
+  h3 {
+    color: $gray-50;
+    font-size: 1.6rem;
+    font-weight: normal;
+    margin-top: 0;
+    text-align: center;
+  }
 }
 
 </style>
