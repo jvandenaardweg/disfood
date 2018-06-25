@@ -17,9 +17,9 @@ export default {
   position: absolute;
   top: 2rem;
   right: 2rem;
-  height: 4.5rem;
-  width: 4.5rem;
-  line-height: 4.5rem;
+  height: 4rem;
+  width: 4rem;
+  line-height: 4rem;
   font-size: 1.6rem;
   padding: 0 1rem;
   font-weight: bold;
@@ -35,9 +35,8 @@ export default {
   z-index: 10;
 
   svg {
-    height: 2rem;
+    height: 1.8rem;
     position: relative;
-    top: 0.2rem;
   }
 
 }
