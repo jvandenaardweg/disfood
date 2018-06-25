@@ -5,7 +5,8 @@ export default {
     try {
       commit('startLoading')
       const excludedRecipeIds = getters['allRecipes'].map(recipe => recipe.id)
-      const recipes = await fetch(`${recipesUrl}?excludedIngredients=${options.ingredients}&excludedRecipeIds=${excludedRecipeIds}&random=true`).then(result => result.json())
+      const recipeTime = options.recipeTime || null
+      const recipes = await fetch(`${recipesUrl}?excludedIngredients=${options.ingredients}&excludedRecipeIds=${excludedRecipeIds}&recipeTime=${recipeTime}&random=true`).then(result => result.json())
       if (recipes) {
         commit('addAll', recipes)
       }

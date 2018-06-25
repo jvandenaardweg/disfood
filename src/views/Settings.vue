@@ -1,9 +1,11 @@
 <template>
   <div class="settings">
+    <input-recipe-time></input-recipe-time>
     <header>
       <h1>Welke ingredienten wil je <span>niet</span> eten?</h1>
       <h2>Hoe meer ingredienten je toevoegt, hoe slimmer de recepten.</h2>
     </header>
+
     <ingredients-form></ingredients-form>
     <div class="settings__footer">
       <btn label="Annuleren" className="btn-secondary" @click.native="$router.push('/')"></btn>
@@ -15,6 +17,7 @@
 <script>
 import Btn from '@/components/Btn'
 import IngredientsForm from '@/components/IngredientsForm'
+import InputRecipeTime from '@/components/InputRecipeTime'
 
 // TODO: when something is changed in the settings, we need to reset the recipes and get a new list
 
@@ -22,7 +25,8 @@ export default {
   name: 'Settings',
   components: {
     Btn,
-    IngredientsForm
+    IngredientsForm,
+    InputRecipeTime
   }
 }
 </script>

@@ -5,8 +5,15 @@ export default {
   setExcludedIngredient (state, items) {
     Vue.set(state, 'excludedIngredients', items)
   },
+  setRecipeTime (state, time) {
+    Vue.set(state, 'recipeTime', time)
+    localStorage.setItem('recipeTime', time)
+  },
   resetExcludedIngredients (state) {
     Vue.set(state, 'excludedIngredients', [])
+  },
+  resetRecipeTime (state) {
+    Vue.set(state, 'recipeTime', null)
   },
   startLoading (state) {
     Vue.set(state, 'isLoading', true)

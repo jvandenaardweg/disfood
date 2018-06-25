@@ -95,7 +95,8 @@ export default {
   computed: {
     ...mapGetters({
       recipes: 'recipes/allRecipes',
-      excludedIngredients: 'filters/excludedIngredients'
+      excludedIngredients: 'filters/excludedIngredients',
+      recipeTime: 'filters/recipeTime'
     }),
     ingredientsList () {
       return (this.excludedIngredients.length) ? this.excludedIngredients.join(',') : null
@@ -121,7 +122,8 @@ export default {
 
       try {
         await this.$store.dispatch('recipes/getAll', {
-          ingredients: this.ingredientsList
+          ingredients: this.ingredientsList,
+          recipeTime: this.recipeTime
         })
       } catch (err) {
         console.log(err)

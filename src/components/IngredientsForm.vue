@@ -183,5 +183,7 @@ export default {
   border: 0;
   border-top-left-radius: 0.3rem;
   border-bottom-left-radius: 0.3rem;
+  font-size: 1.6rem;
+  width: 100%;
 }
 </style>

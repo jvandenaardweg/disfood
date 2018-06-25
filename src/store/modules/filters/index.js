@@ -8,6 +8,11 @@ if (cachedExcludedIngredients) {
   state.excludedIngredients = cachedExcludedIngredients.split(',')
 }
 
+const cachedRecipeTime = window.localStorage.getItem('recipeTime')
+if (cachedRecipeTime) {
+  state.recipeTime = parseFloat(cachedRecipeTime)
+}
+
 export default {
   namespaced: true,
   state,

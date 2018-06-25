@@ -33,7 +33,7 @@
         <h2>Wél gavarieerd eten. Maar zónder de ingredienten die je niet lust</h2>
 
         <div class="onboarding-step__footer">
-          <pagination-dots :dots="3" :activeIndex="0"></pagination-dots>
+          <pagination-dots :dots="4" :activeIndex="0"></pagination-dots>
           <btn label="Volgende" className="btn-primary" @click.native="handleNext"></btn>
         </div>
       </header>
@@ -102,12 +102,41 @@
         <h2>Ingredienten voor de recepten kunnen gekocht worden bij Albert Heijn.</h2>
       </header>
       <div class="onboarding-step__footer">
-        <pagination-dots :dots="3" :activeIndex="1"></pagination-dots>
+        <pagination-dots :dots="4" :activeIndex="1"></pagination-dots>
         <btn label="Volgende" className="btn-primary" @click.native="handleNext"></btn>
       </div>
     </div>
 
     <div class="onboarding-step" v-if="onboardingStep === 3">
+      <header class="onboarding-step__header">
+        <svg class="onboarding-visual" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path fill="#7cd9d2" d="M413 504.5H99c-28 0-50.7-22.7-50.7-50.7V82A74.6 74.6 0 0 1 123 7.5h266.2a74.6 74.6 0 0 1 74.6 74.6v371.7c0 28-22.7 50.7-50.7 50.7z"/>
+          <path fill="#f0f1f1" d="M389 7.5H123a74.6 74.6 0 0 0-74.7 74.6V117h415.4V82A74.6 74.6 0 0 0 389 7.5z"/>
+          <g fill="#f18290">
+            <ellipse cx="172.6" cy="77.5" rx="30.8" ry="24.5"/>
+            <ellipse cx="339.4" cy="77.5" rx="30.8" ry="24.5"/>
+          </g>
+          <path d="M168.2 7.5h-45.3a74.6 74.6 0 0 0-74.6 74.6v371.7c0 28 22.7 50.7 50.7 50.7H325c-190-94.5-161-432.7-156.7-497z" opacity=".1"/>
+          <circle cx="256" cy="303.3" r="124.8" fill="#fff"/>
+          <path d="M275.6 408.5a124.8 124.8 0 0 1-97.5-202.7 124.8 124.8 0 1 0 175.4 175.4 124.3 124.3 0 0 1-77.9 27.3z" opacity=".1"/>
+          <path fill="#d6d8db" d="M153.4 374.4A125.6 125.6 0 0 0 185 406l87.8-87.8a22.3 22.3 0 0 0-31.5-31.5l-87.8 87.8z"/>
+          <path d="M163.6 364.2l-10.2 10.2A125.6 125.6 0 0 0 185 406l10.2-10.2c-12.3-8.5-23-19.2-31.5-31.5z" opacity=".1"/>
+          <path fill="#f18290" d="M316.7 232.2l-39.2 8.8a8.7 8.7 0 0 0-4.2 14.6l30.4 30.4a8.7 8.7 0 0 0 14.6-4.2l8.8-39.2a8.7 8.7 0 0 0-10.4-10.4z"/>
+          <path d="M311.8 176c3 0 5.8-1.8 7-4.6L323 161a7.5 7.5 0 1 0-13.8-5.7l-4.3 10.2a7.5 7.5 0 0 0 7 10.4zm-111.6 0a7.5 7.5 0 0 0 6.9-10.4l-4.3-10.2A7.5 7.5 0 0 0 189 161l4.2 10.3c1.2 2.8 4 4.6 7 4.6zM389 0H122.9a82.2 82.2 0 0 0-82 82.1v306.6a7.5 7.5 0 1 0 15 0V124.4h329.7a7.5 7.5 0 1 0 0-15H55.8V82C55.8 45.1 86 15 123 15h266.2c37 0 67 30.1 67 67.1v27.3h-35a7.5 7.5 0 1 0 0 15h35v329.4A43.3 43.3 0 0 1 413 497H99a43.3 43.3 0 0 1-43.2-43.2v-30.3a7.5 7.5 0 1 0-15 0v30.3A58.3 58.3 0 0 0 99 512h314a58.3 58.3 0 0 0 58.2-58.2V82A82.2 82.2 0 0 0 389 0zM91.5 303.3c0 4.1 3.4 7.5 7.5 7.5h25a131.5 131.5 0 0 0 33.3 80.6L139.7 409a7.5 7.5 0 1 0 10.6 10.6L168 402a133.3 133.3 0 0 0 80.5 33.4v24.9a7.5 7.5 0 1 0 15 0v-25c30.8-1.6 58.9-14 80.5-33.3l17.7 17.6a7.5 7.5 0 0 0 10.6 0c3-3 3-7.7 0-10.6l-17.6-17.6a131.8 131.8 0 0 0 33.4-80.6H413a7.5 7.5 0 1 0 0-15h-25c-1.6-30.8-14-58.9-33.3-80.5l17.6-17.7a7.5 7.5 0 0 0-10.6-10.6L344 204.7a131.8 131.8 0 0 0-80.5-33.5v-24.9a7.5 7.5 0 1 0-15 0v25c-30.8 1.7-58.9 14-80.5 33.3L150.3 187a7.5 7.5 0 0 0-10.6 10.6l17.6 17.7a131.8 131.8 0 0 0-33.4 80.5H99a7.5 7.5 0 0 0-7.5 7.5zm71.8 71.8l83.3-83.2a14.7 14.7 0 0 1 20.8 0 14.7 14.7 0 0 1 0 20.8L184.2 396c-7.8-6-14.8-13-20.9-20.9zM256 186a117.4 117.4 0 1 1-59.2 218.6l81.2-81.2a29.6 29.6 0 0 0 0-42.1 29.6 29.6 0 0 0-42 0l-81.3 81.2A117.4 117.4 0 0 1 256 186zm134.8 69c1 0 2-.2 2.9-.6l10.2-4.2a7.5 7.5 0 1 0-5.7-13.9l-10.2 4.2a7.5 7.5 0 0 0 2.8 14.5zm-272.5-.6a7.4 7.4 0 0 0 9.8-4 7.5 7.5 0 0 0-4-9.9l-10.3-4.2a7.5 7.5 0 1 0-5.7 13.9l10.2 4.2zm275.4 97.8a7.5 7.5 0 1 0-5.7 13.9l10.2 4.2a7.5 7.5 0 0 0 9.8-4 7.5 7.5 0 0 0-4-9.8l-10.3-4.3zM267.6 48.6a15.4 15.4 0 0 1-23.2 0 7.5 7.5 0 0 0-11.3 9.8 30.4 30.4 0 0 0 45.8 0 7.5 7.5 0 0 0-11.3-9.8zM183 42v11a7.5 7.5 0 1 0 15 0V42a7.5 7.5 0 1 0-15 0zm131 0v11a7.5 7.5 0 1 0 15 0V42a7.5 7.5 0 1 0-15 0zm-5 389.1a7.5 7.5 0 0 0-4 9.8l4.2 10.2a7.5 7.5 0 1 0 13.8-5.7l-4.2-10.2a7.5 7.5 0 0 0-9.8-4.1zm-115.8 4l-4.2 10.3a7.5 7.5 0 0 0 13.8 5.7l4.3-10.2a7.5 7.5 0 0 0-13.9-5.7zm-74.9-83l-10.2 4.3a7.5 7.5 0 1 0 5.7 13.8l10.2-4.2a7.5 7.5 0 1 0-5.7-13.9z"/>
+        </svg>
+        <h1>Hoeveel tijd heb jij?</h1>
+        <h2>Soms heb je wat haast, en soms heb je wat langer de tijd. Hoeveel tijd heb jij vandaag om in de keuken te staan?</h2>
+      </header>
+      <div class="onboarding-step__body">
+        <input-recipe-time @recipeTime="handleRecipeTime"></input-recipe-time>
+      </div>
+      <div class="onboarding-step__footer">
+        <pagination-dots :dots="4" :activeIndex="2"></pagination-dots>
+        <btn label="Volgende" className="btn-primary" @click.native="handleNext" :disabled="!recipeTime"></btn>
+      </div>
+    </div>
+
+    <div class="onboarding-step" v-if="onboardingStep === 4">
       <header class="onboarding-step__header">
         <svg class="onboarding-visual" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
           <path fill="#f18290" d="M321.9 282.3c7.7 7.6 7 20.3-1.5 27A176.8 176.8 0 0 1 72 61a18.1 18.1 0 0 1 27-1.5L322 282.3z"/>
@@ -137,7 +166,7 @@
         <ingredients-form @totalIngredients="handleTotalIngredients"></ingredients-form>
       </div>
       <div class="onboarding-step__footer">
-        <pagination-dots :dots="3" :activeIndex="2"></pagination-dots>
+        <pagination-dots :dots="4" :activeIndex="3"></pagination-dots>
         <btn label="Naar recepten" className="btn-primary" @click.native="handleNext" :disabled="!totalIngredients"></btn>
       </div>
     </div>
@@ -148,16 +177,19 @@
 import Btn from '@/components/Btn'
 import IngredientsForm from '@/components/IngredientsForm'
 import PaginationDots from '@/components/PaginationDots'
+import InputRecipeTime from '@/components/InputRecipeTime'
 
 export default {
   name: 'OnboardingStep',
   components: {
     Btn,
     IngredientsForm,
-    PaginationDots
+    PaginationDots,
+    InputRecipeTime
   },
   data: () => ({
-    totalIngredients: 0
+    totalIngredients: 0,
+    recipeTime: null
   }),
   computed: {
     onboardingStep () {
@@ -165,13 +197,16 @@ export default {
     }
   },
   methods: {
+    handleRecipeTime (recipeTime) {
+      this.recipeTime = recipeTime
+    },
     handleTotalIngredients (total) {
       this.totalIngredients = total
     },
     handleNext () {
       const nextStep = this.onboardingStep + 1
 
-      if (this.onboardingStep === 3) {
+      if (this.onboardingStep === 4) {
         this.$router.push({
           path: '/'
         })

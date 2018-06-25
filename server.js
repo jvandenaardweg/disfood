@@ -72,8 +72,10 @@ app.get('/api/ingredients', async function(req, res){
 })
 
 app.get('/api/recipes', async function(req, res){
+  let whereQuery = {}
   const limit = 20
   const random = (req.query.random === "true") ? true : false
+  const recipeTime = (req.query.recipeTime) ? parseFloat(req.query.recipeTime) : null
   const order = (random) ? sequelize.random() : {}
 
   const dirtyExcludedIngredients = req.query.excludedIngredients
@@ -92,13 +94,31 @@ app.get('/api/recipes', async function(req, res){
   // For example: ei > eieren, paprika > paprika's
   // Also, "vis", should return in "zalm", "tonijn", "gamba's", "mosselen" etc...
 
+  if (excludeRecipeIds) {
+    Object.assign(whereQuery, {
+      sourceRecipeId: { $notIn: excludeRecipeIds }
+    })
+  }
+
+  if (recipeTime) {
+    let recipeTimeQuery
+    if (recipeTime === 15) {
+      recipeTimeQuery = { $between: [1, 15] }
+    } else if (recipeTime === 30) {
+      recipeTimeQuery = { $between: [16, 30] }
+    } else if (recipeTime === 60) {
+      recipeTimeQuery = { $between: [31, 999] }
+    }
+    Object.assign(whereQuery, {
+      recipeTime: recipeTimeQuery
+    })
+  }
   console.log('Getting all recipes...')
-  // console.log('Except recipe Ids: ', excludeRecipeIds.join(','))
 
   // Just fetch all the recipes
   // We have no handy way to query the DB with this way of determining ingredients
   const recipes = await Recipe.findAll({
-    sourceRecipeId: { $notIn: excludeRecipeIds },
+    where: whereQuery,
     order: order
   })
   .then(recipes => {
