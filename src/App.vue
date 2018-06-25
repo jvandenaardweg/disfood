@@ -24,6 +24,10 @@ body {
   line-height: 1.5;
 }
 
+.is-hidden {
+  display: none !important;
+}
+
 #app {
   max-width: $max-width;
   margin: 0 auto;

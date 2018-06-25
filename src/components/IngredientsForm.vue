@@ -2,7 +2,7 @@
   <div class="ingredients-form">
     <form class="form-inline" @submit.prevent="handleSubmit">
       <input type="text" class="form-control" ref="excludeIngredientInput" name="excludeIngredient" v-model="excludeIngredient" autocomplete="off" @keydown="handleChange" placeholder="Bijvoorbeeld: spruiten" required />
-      <button class="btn" type="submit">
+      <button class="btn is-hidden" type="submit">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
         </svg>
@@ -55,6 +55,7 @@ export default {
     handleAddIngredient (ingredient) {
       this.excludedIngredients.push(ingredient)
       this.excludeIngredient = null
+      this.$refs.excludeIngredientInput.focus()
     },
     handleRemoveIngredient (ingredient) {
       const index = this.excludedIngredients.indexOf(ingredient)
@@ -117,24 +118,24 @@ export default {
 .form-inline {
   display: flex;
 
-  button {
-    float: right;
-    background: $color-primary;
-    width: 6rem;
-    border: 0;
-    color: $color-white;
-    font-size: 1.6rem;
-    font-weight: bold;
-    border-top-right-radius: 0.3rem;
-    border-bottom-right-radius: 0.3rem;
-    display: block;
+  // button {
+  //   float: right;
+  //   background: $color-primary;
+  //   width: 6rem;
+  //   border: 0;
+  //   color: $color-white;
+  //   font-size: 1.6rem;
+  //   font-weight: bold;
+  //   border-top-right-radius: 0.3rem;
+  //   border-bottom-right-radius: 0.3rem;
+  //   display: block;
 
-    svg {
-      fill: $color-white;
-      position: relative;
-      top: 0.2rem;
-    }
-  }
+  //   svg {
+  //     fill: $color-white;
+  //     position: relative;
+  //     top: 0.2rem;
+  //   }
+  // }
 }
 
 .ingredient-suggestions {
@@ -155,8 +156,9 @@ export default {
   }
 
   p {
-    margin: 0 0 1.4rem 0;
+    margin: 0 0 1.7rem 0;
     color: $gray-60;
+    font-size: 1.4rem;
   }
 }
 
@@ -183,8 +185,9 @@ export default {
   color: $color-black;
   background-color: $gray-90;
   border: 0;
-  border-top-left-radius: 0.3rem;
-  border-bottom-left-radius: 0.3rem;
+  border-radius: 0.3rem;
+  // border-top-left-radius: 0.3rem;
+  // border-bottom-left-radius: 0.3rem;
   font-size: 1.6rem;
   width: 100%;
 }
