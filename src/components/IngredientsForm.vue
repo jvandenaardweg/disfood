@@ -1,7 +1,7 @@
 <template>
   <div class="ingredients-form">
     <form class="form-inline" @submit.prevent="handleSubmit">
-      <input type="text" class="form-control" ref="excludeIngredientInput" name="excludeIngredient" v-model="excludeIngredient" placeholder="Bijvoorbeeld: spruiten" />
+      <input type="text" class="form-control" ref="excludeIngredientInput" name="excludeIngredient" v-model="excludeIngredient" placeholder="Bijvoorbeeld: spruiten" required />
       <button class="btn" type="submit">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
           <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -13,7 +13,7 @@
     </div>
     <div class="user-ingredients" v-if="excludedIngredients.length">
       <div class="user-ingredients__body">
-        <btn className="btn-secondary" :label="ingredient" icon="&times;" @click.native="handleRemoveIngredient(ingredient)" v-for="ingredient in excludedIngredients" :key="ingredient"></btn>
+        <btn className="btn-secondary btn-small" :label="ingredient" icon="&times;" @click.native="handleRemoveIngredient(ingredient)" v-for="ingredient in excludedIngredients" :key="ingredient"></btn>
       </div>
     </div>
   </div>
@@ -32,22 +32,19 @@ export default {
     if (cachedExcludedIngredients) {
       this.excludedIngredients = cachedExcludedIngredients.split(',')
     }
-    this.$emit('totalIngredients', this.excludedIngredients.length)
   },
   data: () => ({
     excludeIngredient: null,
     excludedIngredients: [],
-    suggestions: ['spruitjes', 'witlof', 'andijvie']
+    suggestions: ['spruitjes', 'witlof', 'andijvie', 'spinazie']
   }),
   methods: {
     handleAddIngredient (ingredient) {
-      // this.excludeIngredient = ingredient
       this.excludedIngredients.push(ingredient)
     },
     handleRemoveIngredient (ingredient) {
       const index = this.excludedIngredients.indexOf(ingredient)
       this.excludedIngredients.splice(index, 1)
-      this.saveInLocalStorage()
     },
     handleSubmit (event) {
       if (this.excludedIngredients.includes(this.excludeIngredient)) {
@@ -64,10 +61,8 @@ export default {
       }
 
       this.excludedIngredients.push(this.excludeIngredient)
-      this.saveInLocalStorage()
       this.excludeIngredient = null
       this.$refs.excludeIngredientInput.focus()
-      this.$emit('totalIngredients', this.excludedIngredients.length)
     },
     handleClear () {
       this.excludeIngredient = null
@@ -84,6 +79,13 @@ export default {
       if (newValue) {
         this.excludeIngredient = newValue.toLowerCase()
       }
+    },
+    excludedIngredients (newValue, oldValue) {
+      if (newValue) {
+        this.saveInLocalStorage()
+      }
+
+      this.$emit('totalIngredients', newValue.length)
     }
   }
 }
@@ -117,6 +119,13 @@ export default {
   margin-top: 1rem;
   border-bottom: 1px $gray-90 solid;
   padding-bottom: 1rem;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  margin-right: -2rem;
+  margin-left: -2rem;
+  padding-left: 2rem;
+  -webkit-overflow-scrolling: touch;
 
   .btn {
     margin-right: 0.5rem;

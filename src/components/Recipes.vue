@@ -73,6 +73,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Loader from '@/components/Loader'
 import BtnRemove from '@/components/BtnRemove'
 
@@ -85,26 +86,26 @@ export default {
   data: () => ({
     recipesUrl: (process.env.NODE_ENV === 'production') ? '/api/recipes' : 'http://localhost:3000/api/recipes',
     showSettings: false,
-    recipes: [],
     visibleIndex: 0,
-    excludeIngredient: null,
-    excludedIngredients: []
+    excludeIngredient: null
   }),
   beforeMount () {
-    const cachedExcludedIngredients = window.localStorage.getItem('excludedIngredients')
-    console.log(cachedExcludedIngredients)
-    if (cachedExcludedIngredients) {
-      this.excludeIngredient = cachedExcludedIngredients
-      this.excludedIngredients = cachedExcludedIngredients.split(',')
-    }
-
     this.getData()
+  },
+  computed: {
+    ...mapGetters({
+      recipes: 'recipes/allRecipes',
+      excludedIngredients: 'filters/excludedIngredients'
+    }),
+    ingredientsList () {
+      return (this.excludedIngredients.length) ? this.excludedIngredients.join(',') : null
+    }
   },
   methods: {
     handleNext (index, total) {
       // Get every tenth
       if (index % 10 === 0) {
-        this.getMoreData()
+        this.getData()
       }
 
       if ((index + 1) < total) {
@@ -115,37 +116,13 @@ export default {
       const prevIndex = (index === 0) ? index : (index - 1)
       this.visibleIndex = prevIndex
     },
-    handleGet () {
-      this.getData()
-    },
-    handleClear () {
-      this.excludeIngredient = null
-      this.excludedIngredients = []
-      window.localStorage.removeItem('excludedIngredients')
-      this.recipes = []
-    },
     async getData () {
-      this.recipes = []
       this.isLoading = true
-      const ingredients = (this.excludedIngredients.length) ? this.excludedIngredients.join(',') : null
 
       try {
-        // TODO: send already included recipe Id's, so we won't get them again in the random array
-        this.recipes = await fetch(`${this.recipesUrl}?excludedIngredients=${ingredients}&random=true`).then(result => result.json())
-        // this.recipes.push(...recipes) // TODO: if we keep using random, there could be double recipes in here
-      } catch (err) {
-        console.log(err)
-      } finally {
-        this.isLoading = false
-      }
-    },
-    async getMoreData () {
-      this.isLoading = true
-      const ingredients = (this.excludedIngredients.length) ? this.excludedIngredients.join(',') : null
-      try {
-        // TODO: send already included recipe Id's, so we won't get them again in the random array
-        const recipes = await fetch(`${this.recipesUrl}?excludedIngredients=${ingredients}&random=true`).then(result => result.json())
-        this.recipes.push(...recipes) // TODO: if we keep using random, there could be double recipes in here
+        await this.$store.dispatch('recipes/getAll', {
+          ingredients: this.ingredientsList
+        })
       } catch (err) {
         console.log(err)
       } finally {

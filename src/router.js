@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 import About from './views/About.vue'
 import Settings from './views/Settings.vue'
 import Onboarding from './views/Onboarding.vue'
 import OnboardingStep from './views/OnboardingStep.vue'
+import RecipesIndex from './views/recipes/Index.vue'
+import RecipesId from './views/recipes/Id.vue'
+import RecipesHome from './views/recipes/Home.vue'
 
 Vue.use(Router)
 
@@ -13,12 +15,24 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      redirect: '/recipes'
     },
     {
-      path: '/about',
-      name: 'about',
-      component: About
+      path: '/recipes',
+      name: 'recipes-index',
+      component: RecipesIndex,
+      children: [
+        {
+          path: '',
+          name: 'recipes-home',
+          component: RecipesHome
+        },
+        {
+          path: '/recipes/:recipeId',
+          name: 'recipes-id',
+          component: RecipesId
+        }
+      ]
     },
     {
       path: '/onboarding',
@@ -37,6 +51,11 @@ export default new Router({
       path: '/settings',
       name: 'settings',
       component: Settings
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About
     }
   ]
 })

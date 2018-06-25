@@ -39,8 +39,6 @@ export default {
     margin-left: 0.5rem;
   }
 
-
-
   &.btn-primary {
     background-color: #0077FF;
     color: #ffffff;
@@ -54,29 +52,44 @@ export default {
     span {
       color: $color-white;
     }
+
+    &.btn-small {
+      padding: 0.85rem 1.5rem;
+      font-size: 1.4rem;
+      font-weight: bold;
+      line-height: 1.4rem;
+      height: auto;
+    }
   }
 
   &.btn-secondary {
     background-color: $color-secondary;
     color: $color-black;
-    display: inline-block;
-    padding: 0.85rem 1.5rem;
+    font-size: 1.8rem;
+    height: 5rem;
+    line-height: 5rem;
+    padding: 0 2rem;
     border: 0;
     border-radius: 0.3rem;
-    font-size: 1.4rem;
+
+    display: inline-block;
+    // padding: 0.85rem 1.5rem;
+    // border: 0;
+    border-radius: 0.3rem;
+    // font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
     margin-right: 0.5rem;
     vertical-align: middle;
-    line-height: 1.4rem;
-  }
+    // line-height: 1.4rem;
 
-  &.btn-small {
-    padding: 0.85rem 1.5rem;
-    font-size: 1.4rem;
-    font-weight: bold;
-    line-height: 1.4rem;
-    height: auto;
+    &.btn-small {
+      padding: 0.85rem 1.5rem;
+      font-size: 1.4rem;
+      font-weight: bold;
+      line-height: 1.4rem;
+      height: auto;
+    }
   }
 
   &.btn-block {

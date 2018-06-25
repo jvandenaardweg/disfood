@@ -1,27 +1,21 @@
 <template>
-  <div class="home">
+  <div class="recipes">
     <btn-settings></btn-settings>
-    <recipes></recipes>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Recipes from '@/components/Recipes'
 import BtnSettings from '@/components/BtnSettings'
 
 export default {
-  name: 'home',
+  name: 'recipes',
   components: {
-    Recipes,
     BtnSettings
   }
 }
 </script>
 
 <style lang="scss">
-// .home {
-//   max-width: $max-width;
-//   margin: 0 auto;
-//   position: relative;
-// }
+
 </style>

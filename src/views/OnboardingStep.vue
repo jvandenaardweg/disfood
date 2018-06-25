@@ -33,6 +33,7 @@
         <h2>Wél gavarieerd eten. Maar zónder de ingredienten die je niet lust</h2>
 
         <div class="onboarding-step__footer">
+          <pagination-dots :dots="3" :activeIndex="0"></pagination-dots>
           <btn label="Volgende" className="btn-primary" @click.native="handleNext"></btn>
         </div>
       </header>
@@ -101,6 +102,7 @@
         <h2>Ingredienten voor de recepten kunnen gekocht worden bij Albert Heijn.</h2>
       </header>
       <div class="onboarding-step__footer">
+        <pagination-dots :dots="3" :activeIndex="1"></pagination-dots>
         <btn label="Volgende" className="btn-primary" @click.native="handleNext"></btn>
       </div>
     </div>
@@ -135,6 +137,7 @@
         <ingredients-form @totalIngredients="handleTotalIngredients"></ingredients-form>
       </div>
       <div class="onboarding-step__footer">
+        <pagination-dots :dots="3" :activeIndex="2"></pagination-dots>
         <btn label="Naar recepten" className="btn-primary" @click.native="handleNext" :disabled="!totalIngredients"></btn>
       </div>
     </div>
@@ -144,12 +147,14 @@
 <script>
 import Btn from '@/components/Btn'
 import IngredientsForm from '@/components/IngredientsForm'
+import PaginationDots from '@/components/PaginationDots'
 
 export default {
   name: 'OnboardingStep',
   components: {
     Btn,
-    IngredientsForm
+    IngredientsForm,
+    PaginationDots
   },
   data: () => ({
     totalIngredients: 0
@@ -191,7 +196,7 @@ export default {
     text-align: center;
 
     h1 {
-      margin-top: 0.5rem;
+      margin-top: 1rem;
       margin-bottom: 1rem;
       line-height: 1.4;
     }
@@ -222,7 +227,7 @@ export default {
 }
 
 .onboarding-visual {
-  width: 80px;
+  width: 75px;
   margin: 0 auto;
   margin-top: 2rem;
 }
