@@ -2,8 +2,18 @@ import Vue from 'vue'
 import initialState from '@/store/modules/recipes/initialState'
 
 export default {
-  setExcludedIngredient (state, items) {
-    Vue.set(state, 'excludedIngredients', items)
+  setExcludedIngredient (state, item) {
+    if (!state.excludedIngredients.includes(item)) {
+      state.excludedIngredients.push(item)
+    }
+    localStorage.setItem('excludedIngredients', state.excludedIngredients.join(','))
+  },
+  removeExcludedIngredient (state, item) {
+    if (state.excludedIngredients.includes(item)) {
+      const index = state.excludedIngredients.indexOf(item)
+      state.excludedIngredients.splice(index, 1)
+      localStorage.setItem('excludedIngredients', state.excludedIngredients.join(','))
+    }
   },
   setRecipeTime (state, time) {
     Vue.set(state, 'recipeTime', time)

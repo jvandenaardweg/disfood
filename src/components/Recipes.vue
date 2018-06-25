@@ -39,19 +39,21 @@
         </table>
 
         <h2>Voeg toe aan niet eten lijst</h2>
-        <div>
-          <btn-remove :label="ingredient" v-for="(ingredient, index) in recipe.ingredients" :key="index"></btn-remove>
-          <!-- <button type="button" class="badge" v-for="(ingredient, index) in recipe.ingredients" :key="index">
-            {{ ingredient }}
-          </button> -->
+        <div class="recipe-ingredients-filters">
+          <btn
+            className="btn-small"
+            :class="{'btn-primary': !excludedIngredients.includes(ingredient), 'btn-secondary': excludedIngredients.includes(ingredient) }"
+            :label="ingredient"
+            :icon="icon(ingredient)"
+            @click.native="handleAddFilterIngredient(ingredient)"
+            v-for="(ingredient, index) in recipe.ingredients"
+            :key="index">
+          </btn>
         </div>
-        <!-- <p v-html="recipe.ingredients.join('<br />')"></p> -->
 
-        <!-- <div>
-          <button type="button" v-for="(ingredient, index) in recipe.ingredients" :key="index">{{ ingredient }}</button>
-        </div> -->
+        <br/><br/><br/>
 
-        <a :href="recipe.url">Bekijk op AH.nl</a>
+        <a :href="recipe.url" class="btn btn-primary btn-block">Bekijk op AH.nl</a>
       </div>
 
       <div class="recipe-footer">
@@ -75,13 +77,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import Loader from '@/components/Loader'
-import BtnRemove from '@/components/BtnRemove'
+import Btn from '@/components/Btn'
 
 export default {
   name: 'Recipes',
   components: {
     Loader,
-    BtnRemove
+    Btn
   },
   data: () => ({
     recipesUrl: (process.env.NODE_ENV === 'production') ? '/api/recipes' : 'http://localhost:3000/api/recipes',
@@ -89,7 +91,7 @@ export default {
     visibleIndex: 0,
     excludeIngredient: null
   }),
-  beforeMount () {
+  mounted () {
     this.getData()
   },
   computed: {
@@ -103,6 +105,20 @@ export default {
     }
   },
   methods: {
+    icon (ingredient) {
+      if (!this.excludedIngredients.includes(ingredient)) {
+        return '+'
+      } else {
+        return '&times;'
+      }
+    },
+    handleAddFilterIngredient (ingredient) {
+      if (this.excludedIngredients.includes(ingredient)) {
+        this.$store.commit('filters/removeExcludedIngredient', ingredient)
+      } else {
+        this.$store.commit('filters/setExcludedIngredient', ingredient)
+      }
+    },
     handleNext (index, total) {
       // Get every tenth
       if (index % 10 === 0) {
@@ -151,6 +167,13 @@ $max-width: 500px;
       border-top: 1px $gray-90 solid;
       padding: 0.5rem 0;
     }
+  }
+}
+
+.recipe-ingredients-filters {
+  .btn {
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
   }
 }
 
