@@ -234,11 +234,12 @@ export default {
       margin-top: 1rem;
       margin-bottom: 1rem;
       line-height: 1.4;
+      font-size: 2.2rem;
     }
 
     h2 {
       font-weight: normal;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       color: $gray-50;
       margin-top: 0;
     }
@@ -263,8 +264,8 @@ export default {
 }
 
 .onboarding-visual {
-  width: 75px;
+  width: 70px;
   margin: 0 auto;
-  margin-top: 2rem;
+  // margin-top: 1rem;
 }
 </style>

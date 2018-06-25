@@ -40,7 +40,6 @@ export default {
     excludeIngredient: null,
     excludedIngredients: [],
     suggestions: []
-    // suggestions: ['spruitjes', 'witlof', 'andijvie', 'spinazie']
   }),
   methods: {
     handleChange: debounce(async function (event) {
@@ -48,11 +47,14 @@ export default {
         const ingredientSuggestions = await this.$store.dispatch('filters/getIngredients', {
           search: this.excludeIngredient
         })
-        this.suggestions = ingredientSuggestions.map(ingredient => ingredient.singular).sort((a, b) => a.length - b.length)
+        if (ingredientSuggestions && ingredientSuggestions.length) {
+          this.suggestions = ingredientSuggestions.map(ingredient => ingredient.singular).sort((a, b) => a.length - b.length)
+        }
       }
     }, 500),
     handleAddIngredient (ingredient) {
       this.excludedIngredients.push(ingredient)
+      this.excludeIngredient = null
     },
     handleRemoveIngredient (ingredient) {
       const index = this.excludedIngredients.indexOf(ingredient)
