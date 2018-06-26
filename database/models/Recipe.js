@@ -82,6 +82,10 @@ module.exports = function (sequelize, DataTypes) {
     Recipe.belongsTo(models.source, {
       onDelete: 'RESTRICT'
     })
+    Recipe.belongsToMany(models.label, {
+      onDelete: 'CASCADE',
+      through: 'recipesLabels'
+    })
   }
 
   return Recipe

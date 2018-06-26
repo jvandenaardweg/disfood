@@ -12,6 +12,14 @@ app.use(cors())
 // Serve frontend
 app.use(express.static(__dirname + '/dist'))
 
+app.get('/api/labels', async function (req, res) {
+  const labels = await sequelize.query(`SELECT "labels"."id", "labels"."singular", COUNT("recipesLabels"."labelId") as "total" FROM "recipesLabels"
+  JOIN "labels" ON "labels"."id" = "recipesLabels"."labelId"
+  GROUP BY "labels"."id"
+  ORDER BY "total" DESC`)
+  return res.json({labels: labels[0] })
+})
+
 // Serve API
 app.get('/api/ingredients', async function(req, res){
   let whereQuery = {}
@@ -80,16 +88,18 @@ app.get('/api/recipes', async function(req, res){
 
   const dirtyExcludedIngredients = req.query.excludedIngredients
   const dirtyExcludedRecipeIds = req.query.excludedRecipeIds
+  const dirtyIncludeRecipeIds = req.query.ids
 
-  if (!dirtyExcludedIngredients) {
-    return res.json({'message': 'invalid request'})
-  }
+  // if (!dirtyExcludedIngredients) {
+  //   return res.json({'message': 'invalid request'})
+  // }
 
   const validExcludedIngredients = (dirtyExcludedIngredients) ? dirtyExcludedIngredients.split(',').every(ingredient => typeof ingredient === 'string') : null
   const validExcludedRecipeIds = (dirtyExcludedRecipeIds) ? dirtyExcludedRecipeIds.split(',').every(id => Number.isInteger(id)) : null
 
   const excludeIngredients = (dirtyExcludedIngredients) ? dirtyExcludedIngredients.toLowerCase().split(',') : null
   const excludeRecipeIds = (dirtyExcludedRecipeIds) ? dirtyExcludedRecipeIds.split(',') : null
+  const includeRecipeIds = (dirtyIncludeRecipeIds) ? dirtyIncludeRecipeIds.split(',') : null
   // TODO: create singular and plural ingredients based on the user input
   // For example: ei > eieren, paprika > paprika's
   // Also, "vis", should return in "zalm", "tonijn", "gamba's", "mosselen" etc...
@@ -97,6 +107,12 @@ app.get('/api/recipes', async function(req, res){
   if (excludeRecipeIds) {
     Object.assign(whereQuery, {
       sourceRecipeId: { $notIn: excludeRecipeIds }
+    })
+  }
+
+  if (includeRecipeIds) {
+    Object.assign(whereQuery, {
+      id: { $in: includeRecipeIds }
     })
   }
 

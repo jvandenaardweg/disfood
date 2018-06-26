@@ -9,6 +9,11 @@
       <input-recipe-time></input-recipe-time>
     </section>
 
+    <section class="section">
+      <h2>Waar doe jij je boodschappen?</h2>
+      <input-recipe-time></input-recipe-time>
+    </section>
+
     <!-- <header>
       <h1>Welke ingredienten wil je <span>niet</span> eten?</h1>
       <h2>Hoe meer ingredienten je toevoegt, hoe slimmer de recepten.</h2>

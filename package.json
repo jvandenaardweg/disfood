@@ -16,6 +16,8 @@
     "heroku-postbuild": "[ $NODE_ENV != test ] && yarn build || exit 0"
   },
   "dependencies": {
+    "@google-cloud/translate": "^1.1.0",
+    "@google-cloud/vision": "^0.20.0",
     "array.prototype.flatmap": "^1.2.1",
     "cors": "^2.8.4",
     "dotenv": "^6.0.0",
@@ -25,6 +27,7 @@
     "node-fetch": "^2.1.2",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
+    "pluralize": "^7.0.0",
     "register-service-worker": "^1.0.0",
     "sequelize": "^4.38.0",
     "vue": "^2.5.16",

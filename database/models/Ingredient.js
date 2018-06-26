@@ -4,11 +4,13 @@ module.exports = function (sequelize, DataTypes) {
   var Ingredient = sequelize.define('ingredient', {
     singular: {
       type: DataTypes.STRING, // paprika's
-      allowNull: false
+      allowNull: false,
+      unique: true
     },
     plural: {
       type: DataTypes.STRING, // paprika's
-      allowNull: true
+      allowNull: true,
+      unique: true
     },
     quantityUnitSingular: {
       type: DataTypes.STRING, // teen, ml, l
