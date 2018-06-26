@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const Recipe = require('./database/').recipe
+const RecipesLabels = require('./database/').recipesLabels
+const Label = require('./database/').label
 const Ingredient = require('./database/').ingredient
 const sequelize = require('./database/').sequelize
 
@@ -12,7 +14,56 @@ app.use(cors())
 // Serve frontend
 app.use(express.static(__dirname + '/dist'))
 
-app.get('/api/labels', async function (req, res) {
+// Get's a recipe by ID
+app.get('/api/recipes/:id', async (req, res) => {
+  const recipeId = parseFloat(req.params.id)
+
+  const recipe = await Recipe.findOne({
+    where: {
+      id: recipeId
+    },
+    include: [{
+      model: Label
+    }]
+  })
+
+  return res.json(recipe)
+})
+
+// Get's recipes by label ID
+app.get('/api/labels/:id/recipes', async (req, res) => {
+  const labelId = parseFloat(req.params.id)
+
+  const label = await Recipe.findAll({
+    where: {
+      '$labels.id$': {
+        $eq: labelId
+      },
+      // '$labels.recipesLabels.score$': {
+      //   $gt: 0.8
+      // }
+    },
+    include: [{
+      model: Label,
+      required: false
+    }],
+    subQuery: false
+  })
+
+  return res.json(label)
+})
+
+// Get's label by ID
+app.get('/api/labels/:id', async (req, res) => {
+  const labelId = parseFloat(req.params.id)
+
+  const label = await Label.findById(labelId)
+
+  return res.json(label)
+})
+
+// Returns all labels with their total count
+app.get('/api/labels', async (req, res) => {
   const labels = await sequelize.query(`SELECT "labels"."id", "labels"."singular", COUNT("recipesLabels"."labelId") as "total" FROM "recipesLabels"
   JOIN "labels" ON "labels"."id" = "recipesLabels"."labelId"
   GROUP BY "labels"."id"
@@ -20,8 +71,8 @@ app.get('/api/labels', async function (req, res) {
   return res.json({labels: labels[0] })
 })
 
-// Serve API
-app.get('/api/ingredients', async function(req, res){
+// Returns all ingredients
+app.get('/api/ingredients', async (req, res) => {
   let whereQuery = {}
 
   const limit = (req.query.limit) ? parseFloat(req.query.limit) : 100
@@ -79,7 +130,8 @@ app.get('/api/ingredients', async function(req, res){
   res.json(ingredients)
 })
 
-app.get('/api/recipes', async function(req, res){
+// Returns all recipes
+app.get('/api/recipes', async (req, res) => {
   let whereQuery = {}
   const limit = 20
   const random = (req.query.random === "true") ? true : false
