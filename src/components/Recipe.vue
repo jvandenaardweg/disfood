@@ -41,7 +41,7 @@
         </div>
 
         <p v-html="recipe.preparationSummary.join('<br /><br />')"></p>
-        <p v-html="recipe.labels.join('<br /><br />')"></p>
+        <!-- <p v-html="recipe.labels.join('<br /><br />')"></p> -->
 
         <!-- <section class="section ingredients" :class="{'is-fixed': showIngredients === recipe.id }"> -->
         <section class="section ingredients">
