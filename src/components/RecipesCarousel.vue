@@ -2,6 +2,7 @@
   <div class="recipes-carousel">
     <header class="recipes-carousel__header">
       <h2>{{ title }}</h2>
+      <!-- <btn label="Shuffle"></btn> -->
     </header>
     <div class="recipes-carousel__body" ref="scroller" @scroll="handleScroll">
       <div class="recipes-carousel__item" v-for="(recipe, index) in recipes" :key="recipe.id" v-if="recipes">
@@ -35,11 +36,13 @@
 
 <script>
 import SourceLogo from '@/components/SourceLogo'
+import Btn from '@/components/Btn'
 
 export default {
   name: 'RecipesCarousel',
   components: {
-    SourceLogo
+    SourceLogo,
+    Btn
   },
   data: () => ({
     scrollLeftPosition: 0
@@ -81,9 +84,18 @@ export default {
 
   .recipes-carousel__header {
     padding: 0 1.5rem;
+    display: flex;
 
     h1, h2 {
       margin: 0 0 1.5rem 0;
+    }
+
+    .btn {
+      margin-left: auto;
+      padding-right: 0;
+      font-weight: normal;
+      color: $color-primary;
+      margin-bottom: 1rem;
     }
   }
 

@@ -7,6 +7,7 @@ import OnboardingStep from './views/OnboardingStep.vue'
 import RecipesIndex from './views/recipes/Index.vue'
 import RecipesId from './views/recipes/Id.vue'
 import RecipesHome from './views/recipes/Home.vue'
+import Favorites from './views/Favorites.vue'
 
 Vue.use(Router)
 
@@ -54,6 +55,11 @@ export default new Router({
           component: OnboardingStep
         }
       ]
+    },,
+    {
+      path: '/favorites',
+      name: 'favorites',
+      component: Favorites
     },
     {
       path: '/settings',
