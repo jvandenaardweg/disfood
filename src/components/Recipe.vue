@@ -43,20 +43,18 @@
         <p v-html="recipe.preparationSummary.join('<br /><br />')"></p>
         <p v-html="recipe.labels.join('<br /><br />')"></p>
 
-        <section class="section ingredients" :class="{'is-fixed': showIngredients === recipe.id }">
+        <!-- <section class="section ingredients" :class="{'is-fixed': showIngredients === recipe.id }"> -->
+        <section class="section ingredients">
           <h2>Ingredienten</h2>
           <h3>Met deze lijst kan je boodschappen doen bij jouw lokale Albert Heijn.</h3>
           <table class="table">
             <tr v-for="(ingredient, index) in recipe.ingredientsText" :key="index">
-              <!-- <td><button type="button">{{ ingredient }}</button></td> -->
               <td>{{ ingredient }}</td>
             </tr>
           </table>
-
-          <!-- <btn v-if="showIngredients === recipe.id" className="btn-primary btn-block" @click.native="handleHideIngredients(recipe.id)" label="Terug naar recept"></btn> -->
         </section>
 
-        <!-- <h2>Voeg toe aan niet eten lijst</h2>
+        <h2>Voeg toe aan niet eten lijst</h2>
         <div class="recipe-ingredients-filters">
           <btn
             className="btn-small"
@@ -67,20 +65,23 @@
             v-for="(ingredient, index) in recipe.ingredients"
             :key="index">
           </btn>
-        </div> -->
+        </div>
       </div>
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import SourceLogo from '@/components/SourceLogo'
 import BtnBack from '@/components/BtnBack'
+import Btn from '@/components/Btn'
 
 export default {
   name: 'Recipe',
   components: {
     BtnBack,
-    SourceLogo
+    SourceLogo,
+    Btn
   },
   props: {
     recipe: {
@@ -96,6 +97,9 @@ export default {
     showIngredients: null
   }),
   computed: {
+    ...mapGetters({
+      excludedIngredients: 'filters/excludedIngredients'
+    }),
     index () {
       const indexParam = this.$route.params.index
       if (indexParam) return parseFloat(indexParam)
@@ -108,6 +112,9 @@ export default {
     }
   },
   methods: {
+    icon (ingredient) {
+      return '&times;'
+    },
     handleNext () {
       const nextIndex = this.index + 1
       const nextRecipe = this.$store.state.recipes.recipes[nextIndex]
@@ -352,7 +359,7 @@ input[type="text"] {
 }
 
 .ingredients {
-  display: none;
+  // display: none;
 
   &.is-fixed {
     position: fixed;
@@ -369,9 +376,9 @@ input[type="text"] {
 
   h2 {
     margin-bottom: 0;
-    font-family: 'Merriweather', Palatino, Georgia, serif;
+    // font-family: 'Merriweather', Palatino, Georgia, serif;
     font-size: 2.4rem;
-    text-align: center;
+    // text-align: center;
   }
 
   h3 {
@@ -379,7 +386,7 @@ input[type="text"] {
     font-size: 1.6rem;
     font-weight: normal;
     margin-top: 0;
-    text-align: center;
+    // text-align: center;
   }
 }
 </style>

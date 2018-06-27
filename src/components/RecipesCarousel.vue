@@ -21,14 +21,8 @@
                 </svg>
                 <span>{{ recipe.recipeTime }} min.</span>
               </li>
-              <!-- <li>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                </svg>
-                <span>{{ recipe.servingsNumber }}</span>
-              </li> -->
             </ul>
-            <img :src="`https://res.cloudinary.com/hardtraxx/image/fetch/w_460,h_580,c_fill/${recipe.imageMedium}`" :alt="recipe.title" />
+            <img :src="recipe.imageMedium" :alt="recipe.title" />
           </div>
           <div class="recipes-carousel__item-title">
             <h2>{{ recipe.title }}</h2>
@@ -42,8 +36,6 @@
 <script>
 import SourceLogo from '@/components/SourceLogo'
 
-// https://res.cloudinary.com/demo/image/fetch/https://static.ah.nl/static/recepten/img_013935_1024x748_JPG.jpg
-// https://res.cloudinary.com/demo/image/fetch/w_460,h_580,c_fill/https://static.ah.nl/static/recepten/img_013935_1024x748_JPG.jpg
 export default {
   name: 'RecipesCarousel',
   components: {
