@@ -36,7 +36,7 @@ export default new Router({
           component: RecipesHome
         },
         {
-          path: '/recipes/:recipeId',
+          path: '/recipes/:recipeId/:index',
           name: 'recipes-id',
           component: RecipesId
         }

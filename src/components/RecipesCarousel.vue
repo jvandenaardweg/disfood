@@ -4,8 +4,8 @@
       <h2>{{ title }}</h2>
     </header>
     <div class="recipes-carousel__body" ref="scroller" @scroll="handleScroll">
-      <div class="recipes-carousel__item" v-for="(recipe, index) in recipes" :key="index">
-        <router-link :to="`/recipes/${recipe.id}`" class="recipes-carousel__item-link">
+      <div class="recipes-carousel__item" v-for="(recipe, index) in recipes" :key="recipe.id" v-if="recipes">
+        <router-link :to="`/recipes/${recipe.id}/${index}`" class="recipes-carousel__item-link">
           <div class="recipes-carousel__item-picture">
             <source-logo name="Albert Heijn"></source-logo>
             <ul>
@@ -28,7 +28,7 @@
                 <span>{{ recipe.servingsNumber }}</span>
               </li> -->
             </ul>
-            <img :src="recipe.imageMedium" :alt="recipe.title" />
+            <img :src="`https://res.cloudinary.com/hardtraxx/image/fetch/w_460,h_580,c_fill/${recipe.imageMedium}`" :alt="recipe.title" />
           </div>
           <div class="recipes-carousel__item-title">
             <h2>{{ recipe.title }}</h2>
@@ -42,6 +42,8 @@
 <script>
 import SourceLogo from '@/components/SourceLogo'
 
+// https://res.cloudinary.com/demo/image/fetch/https://static.ah.nl/static/recepten/img_013935_1024x748_JPG.jpg
+// https://res.cloudinary.com/demo/image/fetch/w_460,h_580,c_fill/https://static.ah.nl/static/recepten/img_013935_1024x748_JPG.jpg
 export default {
   name: 'RecipesCarousel',
   components: {
@@ -99,6 +101,7 @@ export default {
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     min-height: 37rem;
+    text-align: left;
   }
 
   .recipes-carousel__item {
@@ -114,6 +117,9 @@ export default {
     .recipes-carousel__item-picture {
       height: 290px;
       position: relative;
+      background-color: $gray-80;
+      border-radius: 1rem;
+      overflow: hidden;
 
       .source-logo {
         width: 3.5rem;

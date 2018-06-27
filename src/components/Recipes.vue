@@ -43,10 +43,10 @@ export default {
     excludeIngredient: null,
     showIngredients: null
   }),
-  mounted () {
-    console.log('mmm')
-    this.getNewData()
-  },
+  // mounted () {
+  //   console.log('mmm')
+  //   this.getNewData()
+  // },
   computed: {
     ...mapGetters({
       recipes: 'recipes/allRecipes',
@@ -73,6 +73,7 @@ export default {
   },
   methods: {
     handleRecipeTimeChange (recipeTime) {
+      console.log(recipeTime)
       this.getNewData()
     },
     handleClickSupriseMe (event) {

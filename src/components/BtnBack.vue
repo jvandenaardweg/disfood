@@ -11,7 +11,8 @@ export default {
   name: 'BtnBack',
   methods: {
     handleClick (event) {
-      this.$router.go(-1) // TODO: this will not work with referral links
+      this.$router.push('/recipes')
+      // this.$router.go(-1) // TODO: this will not work with referral links
     }
   }
 }

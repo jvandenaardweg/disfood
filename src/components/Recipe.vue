@@ -5,6 +5,18 @@
         <a :href="recipe.url">
           <source-logo name="Albert Heijn"></source-logo>
         </a>
+        <div class="recipe-quick-navigation" v-if="showQuickNavigation">
+          <button type="button" class="btn btn-primary btn-block" @click.prevent="handlePrevious()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+          </button>
+          <button type="button" class="btn btn-primary btn-block" @click.prevent="handleNext()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+          </button>
+        </div>
         <img :src="recipe.imageMedium" :alt="recipe.title" />
       </div>
       <div class="recipe__body">
@@ -57,20 +69,6 @@
           </btn>
         </div> -->
       </div>
-
-      <!-- <div class="recipe-footer">
-        <button type="button" class="btn btn-primary btn-block" @click.prevent="handlePrevious(index, recipes.length)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-          </svg>
-        </button>
-        <button type="button" class="btn btn-primary btn-block" @click.prevent="handleShowIngredients(recipe.id)">Ingredienten</button>
-        <button type="button" class="btn btn-primary btn-block" @click.prevent="handleNext(index, recipes.length)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-          </svg>
-        </button>
-      </div> -->
     </div>
 </template>
 
@@ -96,7 +94,37 @@ export default {
     visibleIndex: 0,
     excludeIngredient: null,
     showIngredients: null
-  })
+  }),
+  computed: {
+    index () {
+      const indexParam = this.$route.params.index
+      if (indexParam) return parseFloat(indexParam)
+      return null
+    },
+    showQuickNavigation () {
+      const hasMoreRecipes = this.$store.state.recipes.recipes.length > 1
+      const hasIndex = (this.index !== null) ? true : false
+      return hasMoreRecipes && hasIndex
+    }
+  },
+  methods: {
+    handleNext () {
+      const nextIndex = this.index + 1
+      const nextRecipe = this.$store.state.recipes.recipes[nextIndex]
+      // TODO: if there's no next recipe, get next, if there's no more, hide next button
+      this.$router.push({
+        path: `/recipes/${nextRecipe.id}/${nextIndex}`
+      })
+    },
+    handlePrevious () {
+      const previousIndex = (this.index) ? this.index - 1 : 0
+      const previousRecipe = this.$store.state.recipes.recipes[previousIndex]
+      // TODO: if there's no previous recipe, hide prev button
+      this.$router.push({
+        path: `/recipes/${previousRecipe.id}/${previousIndex}`
+      })
+    }
+  }
 }
 </script>
 
@@ -292,9 +320,9 @@ input[type="text"] {
   }
 }
 
-.recipe-footer {
+.recipe-quick-navigation {
   position: fixed;
-  bottom: 0;
+  top: 10rem;
   padding: 1.5rem;
   width: 100%;
   left: 0;
@@ -302,35 +330,22 @@ input[type="text"] {
   max-width: $max-width;
   margin: 0 auto;
   display: flex;
-  background-color: $color-white;
-  box-shadow: 0 0px 10px rgba(0,0,0, 0.2);
-  // flex: 0 auto;
+  z-index: 5;
 
   .btn {
-    flex: 0 0 50px;
-    height: 50px;
+    height: 5rem;
     width: 100%;
+    line-height: 6rem;
+    width: 5rem;
+    padding: 0;
+    border-radius: 100%;
+    background: $color-white;
 
-    &:nth-child(2) {
-      flex: 1;
-    }
-
-    &:first-child {
-      width: 50px;
-      padding: 0;
-      margin-right: 10px;
-      // text-indent: -13337px;
-      border-radius: 100%;
-      background: #E3E3E3;
+    svg {
+      fill: $color-black;
     }
     &:last-child {
-      width: 50px;
-      padding: 0;
-      margin-left: 10px;
-      // text-indent: -13337px;
-      border-radius: 100%;
-      background: white;
-      background: #E3E3E3;
+      margin-left: auto;
     }
   }
 
