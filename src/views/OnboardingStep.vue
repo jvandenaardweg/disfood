@@ -222,7 +222,7 @@ export default {
 
 <style lang="scss">
 .onboarding {
-  padding: 2rem 2rem 12rem 2rem;
+  padding: 20vw 1.5rem 12rem 1.5rem;
 }
 
 .onboarding-step {
@@ -252,7 +252,7 @@ export default {
     right: 0;
     margin: auto;
     width: 100%;
-    padding: 2rem;
+    padding: 1.5rem;
     max-width: $max-width;
     background-color: $color-white;
 

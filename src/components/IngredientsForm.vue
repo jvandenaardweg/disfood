@@ -145,9 +145,9 @@ export default {
   overflow-x: scroll;
   overflow-y: hidden;
   white-space: nowrap;
-  margin-right: -2rem;
-  margin-left: -2rem;
-  padding-left: 2rem;
+  margin-right: -1.5rem;
+  margin-left: -1.5rem;
+  padding-left: 1.5rem;
   -webkit-overflow-scrolling: touch;
 
   .btn {

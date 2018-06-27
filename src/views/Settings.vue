@@ -4,10 +4,10 @@
       <h1>Instellingen</h1>
     </header>
 
-    <section class="section">
+    <!-- <section class="section">
       <h2>Hoeveel tijd heb jij vandaag?</h2>
       <input-recipe-time></input-recipe-time>
-    </section>
+    </section> -->
 
     <section class="section">
       <h2>Waar doe jij je boodschappen?</h2>
@@ -57,7 +57,7 @@ export default {
 }
 
 .settings {
-  padding: 2rem 2rem 10rem 2rem;
+  padding: 1.5rem 1.5rem 10rem 1.5rem;
 
   header {
     text-align: center;
@@ -92,7 +92,7 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
-  padding: 2rem;
+  padding: 1.5rem;
   z-index: 10;
   background-color: $color-white;
 

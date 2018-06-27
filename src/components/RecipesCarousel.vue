@@ -3,35 +3,37 @@
     <header class="recipes-carousel__header">
       <h2>{{ title }}</h2>
     </header>
-    <div class="recipes-carousel__body">
+    <div class="recipes-carousel__body" ref="scroller" @scroll="handleScroll">
       <div class="recipes-carousel__item" v-for="(recipe, index) in recipes" :key="index">
-        <div class="recipes-carousel__item-picture">
-          <source-logo name="Albert Heijn"></source-logo>
-          <ul>
-            <li>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
-              </svg>
-              <span>{{ recipe.kcal }} kcal</span>
-            </li>
-            <li>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M16.24 7.76C15.07 6.59 13.54 6 12 6v6l-4.24 4.24c2.34 2.34 6.14 2.34 8.49 0 2.34-2.34 2.34-6.14-.01-8.48zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
-              </svg>
-              <span>{{ recipe.recipeTime }} min.</span>
-            </li>
-            <li>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-              </svg>
-              <span>{{ recipe.servingsNumber }}</span>
-            </li>
-          </ul>
-          <img :src="recipe.imageMedium" :alt="recipe.title" />
-        </div>
-        <div class="recipes-carousel__item-title">
-          <h2>{{ recipe.title }}</h2>
-        </div>
+        <router-link :to="`/recipes/${recipe.id}`" class="recipes-carousel__item-link">
+          <div class="recipes-carousel__item-picture">
+            <source-logo name="Albert Heijn"></source-logo>
+            <ul>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
+                </svg>
+                <span>{{ recipe.kcal }} kcal</span>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M16.24 7.76C15.07 6.59 13.54 6 12 6v6l-4.24 4.24c2.34 2.34 6.14 2.34 8.49 0 2.34-2.34 2.34-6.14-.01-8.48zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+                </svg>
+                <span>{{ recipe.recipeTime }} min.</span>
+              </li>
+              <!-- <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                </svg>
+                <span>{{ recipe.servingsNumber }}</span>
+              </li> -->
+            </ul>
+            <img :src="recipe.imageMedium" :alt="recipe.title" />
+          </div>
+          <div class="recipes-carousel__item-title">
+            <h2>{{ recipe.title }}</h2>
+          </div>
+        </router-link>
       </div>
     </div>
   </div>
@@ -45,6 +47,9 @@ export default {
   components: {
     SourceLogo
   },
+  data: () => ({
+    scrollLeftPosition: 0
+  }),
   props: {
     title: {
       type: String,
@@ -52,6 +57,24 @@ export default {
     },
     recipes: {
       type: Array
+    }
+  },
+  activated () {
+    // Remember scroll position during page transitions
+    this.$refs.scroller.scrollLeft = this.scrollLeftPosition
+  },
+  methods: {
+    handleScroll (event) {
+      this.scrollLeftPosition = event.target.scrollLeft
+    },
+    resetScrollPosition () {
+      this.$refs.scroller.scrollLeft = 0
+      this.scrollLeftPosition = 0
+    }
+  },
+  watch: {
+    recipes (newValue, oldValue) {
+      if (newValue) this.resetScrollPosition()
     }
   }
 }
@@ -75,12 +98,13 @@ export default {
     overflow-y: hidden;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
+    min-height: 37rem;
   }
 
   .recipes-carousel__item {
     display: inline-block;
     margin-right: 1.5rem;
-    width: 260px;
+    width: 230px;
     vertical-align: top;
 
     &:first-child {
@@ -88,7 +112,7 @@ export default {
     }
 
     .recipes-carousel__item-picture {
-      height: 320px;
+      height: 290px;
       position: relative;
 
       .source-logo {
@@ -103,11 +127,11 @@ export default {
         display: block;
         width: 100%;
         height: 100%;
-        border-radius: 0.5rem;
+        border-radius: 1rem;
       }
 
       ul {
-        border-radius: 0.5rem;
+        border-radius: 1rem;
         list-style: none;
         margin: 0;
         padding: 1.5rem;
@@ -128,6 +152,10 @@ export default {
           margin-right: 1rem;
           color: $color-white;
           text-shadow: 1px 1px rgba($color-black, 0.5);
+
+          &:last-child {
+            margin-left: auto;
+          }
 
           span {
             display: inline-block;
@@ -152,10 +180,16 @@ export default {
       h2 {
         margin: 0;
         white-space: normal;
-        font-size: 1.8rem;
+        font-size: 1.6rem;
         font-weight: normal;
         line-height: 1.4;
       }
+    }
+
+    .recipes-carousel__item-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
     }
   }
 }

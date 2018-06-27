@@ -1,18 +1,14 @@
 <template>
   <div class="recipes">
-    <btn-settings></btn-settings>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-import BtnSettings from '@/components/BtnSettings'
-
 export default {
-  name: 'recipes',
-  components: {
-    BtnSettings
-  }
+  name: 'recipes'
 }
 </script>
 

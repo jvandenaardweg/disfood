@@ -11,6 +11,14 @@ import RecipesHome from './views/recipes/Home.vue'
 Vue.use(Router)
 
 export default new Router({
+  linkActiveClass: 'is-active',
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  },
   routes: [
     {
       path: '/',

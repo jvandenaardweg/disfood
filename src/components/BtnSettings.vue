@@ -15,8 +15,8 @@ export default {
 <style lang="scss">
 .btn-settings {
   position: absolute;
-  top: 2rem;
-  right: 2rem;
+  top: 1.5rem;
+  right: 1.5rem;
   height: 4rem;
   width: 4rem;
   line-height: 4rem;

@@ -69,7 +69,7 @@ export default {
     border-bottom: 0;
     border-left: .3em solid transparent;
     position: absolute;
-    right: 2rem;
+    right: 1.5rem;
     top: 0;
     bottom: 0;
     margin: auto;

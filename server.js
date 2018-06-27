@@ -23,7 +23,11 @@ app.get('/api/recipes/:id', async (req, res) => {
       id: recipeId
     },
     include: [{
-      model: Label
+      model: Label,
+      attributes: ['id', 'singular', 'plural'],
+      through: {
+        attributes: []
+      }
     }]
   })
 
@@ -45,7 +49,11 @@ app.get('/api/labels/:id/recipes', async (req, res) => {
     },
     include: [{
       model: Label,
-      required: false
+      required: false,
+      attributes: ['id', 'singular', 'plural'],
+      through: {
+        attributes: []
+      }
     }],
     subQuery: false
   })
@@ -187,6 +195,14 @@ app.get('/api/recipes', async (req, res) => {
   // We have no handy way to query the DB with this way of determining ingredients
   const recipes = await Recipe.findAll({
     where: whereQuery,
+    include: [{
+      model: Label,
+      required: false,
+      attributes: ['id', 'singular', 'plural'],
+      through: {
+        attributes: []
+      }
+    }],
     order: order
   })
   .then(recipes => {

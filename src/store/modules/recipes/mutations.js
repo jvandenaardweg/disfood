@@ -3,7 +3,13 @@ import initialState from '@/store/modules/recipes/initialState'
 
 export default {
   addAll (state, items) {
+    Vue.set(state, 'recipes', items)
+  },
+  addMore (state, items) {
     state.recipes.push(...items)
+  },
+  addOne (state, recipe) {
+    state.recipes.push(recipe)
   },
   startLoading (state) {
     Vue.set(state, 'isLoading', true)
