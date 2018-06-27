@@ -34,12 +34,12 @@ export default {
   left: 0;
   width: 100%;
   z-index: 100;
-  height: 5.5rem;
+  height: 4.9rem;
   bottom: 0;
   justify-content: space-around;
   border-bottom: 0;
   background-color: $color-white;
-  border-top: 1px $gray-80 solid;
+  border-top: 1px $gray-90 solid;
   padding: 0;
   text-align: center;
 
