@@ -112,7 +112,7 @@ export default {
 
 <style lang="scss">
 .ingredients-form {
-  margin-top: 2rem;
+  // margin-top: 2rem;
 }
 
 .form-inline {

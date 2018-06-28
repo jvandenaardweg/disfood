@@ -45,7 +45,7 @@
 
         <!-- <section class="section ingredients" :class="{'is-fixed': showIngredients === recipe.id }"> -->
         <section class="section ingredients">
-          <h2>Ingredienten</h2>
+          <h2>Ingrediënten</h2>
           <h3>Met deze lijst kan je boodschappen doen bij jouw lokale Albert Heijn.</h3>
           <table class="table">
             <tr v-for="(ingredient, index) in recipe.ingredientsText" :key="index">

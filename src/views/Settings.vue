@@ -1,6 +1,6 @@
 <template>
-  <div class="settings">
-    <header>
+  <div class="page page-settings">
+    <header class="page__header">
       <h1>Instellingen</h1>
     </header>
 
@@ -14,20 +14,10 @@
       <input-recipe-time></input-recipe-time>
     </section>
 
-    <!-- <header>
-      <h1>Welke ingredienten wil je <span>niet</span> eten?</h1>
-      <h2>Hoe meer ingredienten je toevoegt, hoe slimmer de recepten.</h2>
-    </header> -->
-
-    <section class="section">
-      <h2>Welke ingredienten wil je <span>niet</span> eten?</h2>
-      <ingredients-form></ingredients-form>
-    </section>
-
-    <div class="settings__footer">
+    <footer class="page__footer">
       <btn label="Annuleren" className="btn-secondary" @click.native="$router.push('/')"></btn>
       <btn label="Opslaan" className="btn-primary" @click.native="$router.push('/')"></btn>
-    </div>
+    </footer>
   </div>
 </template>
 
@@ -49,56 +39,7 @@ export default {
 </script>
 
 <style lang="scss">
-
-.section {
-  text-align: left;
-  border-bottom: 1px $gray-90 solid;
-  padding-bottom: 2rem;
-}
-
-.settings {
-  padding: 1.5rem;
-
-  header {
-    text-align: center;
-
-    h2 {
-      color: $gray-70;
-    }
-  }
-
-  h1 {
-    span {
-      color: $color-red;
-    }
-  }
-
-  h2 {
-    font-size: 1.6rem;
-    // font-weight: 600;
-
-    span {
-      color: $color-red;
-    }
-  }
-
-}
-
-.settings__footer {
-  // margin-top: 2rem;
-  display: flex;
-  justify-content: space-between;
-  // position: fixed;
-  // bottom: 0;
-  // left: 0;
-  width: 100%;
-  padding: 1.5rem;
-  z-index: 10;
-  background-color: $color-white;
-
-  .btn {
-    width: 100%;
-  }
-
+.page-settings {
+  //
 }
 </style>
