@@ -328,7 +328,7 @@ input[type="text"] {
 }
 
 .recipe-quick-navigation {
-  position: fixed;
+  position: absolute;
   top: 10rem;
   padding: 1.5rem;
   width: 100%;

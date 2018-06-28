@@ -13,7 +13,8 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "test:watch": "jest --watch",
-    "heroku-postbuild": "[ $NODE_ENV != test ] && yarn build || exit 0"
+    "heroku-postbuild": "[ $NODE_ENV != test ] && yarn build || exit 0",
+    "import:db": "pg_restore --verbose --clean --no-acl --no-owner -h localhost -p 5432 -U disfood -W -d disfood latest.dump"
   },
   "dependencies": {
     "@google-cloud/translate": "^1.1.0",

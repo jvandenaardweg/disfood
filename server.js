@@ -14,9 +14,72 @@ app.use(cors())
 // Serve frontend
 app.use(express.static(__dirname + '/dist'))
 
+app.get('/api/recipes/:id/related', async (req, res) => {
+  const recipeId = parseInt(req.params.id)
+
+  try {
+    const recipe = await Recipe.findOne({
+      where: {
+        id: {
+          $eq: recipeId
+        }
+      },
+      include: [{
+        model: Label,
+        attributes: ['id', 'singular', 'plural'],
+        through: {
+          attributes: []
+        }
+      }]
+    })
+
+    const disabledLabels = [1, 2, 3, 5, 6, 7, 11, 19, 29, 30] // disable general labels to allow more specific suggestions
+
+    // Get an array of label Id's to look for
+    const labelIds = recipe.labels.reduce((prev, next) => {
+      if (!disabledLabels.includes(next.id)) {
+        prev.push(next.id)
+      }
+      return prev
+    }, [])
+
+    // TODO: find a way to ALWAYS output a minimum of 5 recipes
+    // TODO: maybe also find related ingredients?
+    const relatedRecipes = await Recipe.findAll({
+      where: {
+        '$labels.id$': {
+          $any: labelIds
+        },
+        '$labels.recipesLabels.score$': {
+          $gt: 0.8 // Use a high score to be more likely to be related. This has the possibility to allow less than { limit } results
+        },
+        recipeTime: {
+          $between: [recipe.recipeTime - 10, recipe.recipeTime + 10]
+        }
+      },
+      include: [{
+        model: Label,
+        attributes: ['id', 'singular', 'plural'],
+        through: {
+          attributes: ['score']
+        }
+      }],
+      subQuery: false,
+      order: [[Label, RecipesLabels, 'score', 'DESC']],
+      limit: 5
+    })
+
+    return res.json(relatedRecipes)
+
+  } catch (err) {
+    console.log('ERROR!', err)
+    return res.status(500).json({message: 'Error getting related recipes.'})
+  }
+})
+
 // Get's a recipe by ID
 app.get('/api/recipes/:id', async (req, res) => {
-  const recipeId = parseFloat(req.params.id)
+  const recipeId = parseInt(req.params.id)
 
   const recipe = await Recipe.findOne({
     where: {

@@ -8,6 +8,7 @@ import RecipesIndex from './views/recipes/Index.vue'
 import RecipesId from './views/recipes/Id.vue'
 import RecipesHome from './views/recipes/Home.vue'
 import Favorites from './views/Favorites.vue'
+import Ingredients from './views/Ingredients.vue'
 
 Vue.use(Router)
 
@@ -55,11 +56,16 @@ export default new Router({
           component: OnboardingStep
         }
       ]
-    },,
+    },
     {
       path: '/favorites',
       name: 'favorites',
       component: Favorites
+    },
+    {
+      path: '/ingredients',
+      name: 'ingredients',
+      component: Ingredients
     },
     {
       path: '/settings',

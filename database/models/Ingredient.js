@@ -1,5 +1,10 @@
 'use strict'
 
+// Sources:
+// https://nl.wikipedia.org/wiki/Lijst_van_fruit
+// https://nl.wikipedia.org/wiki/Lijst_van_groenten
+// https://www.voedingswaardetabel.nl/voedingswaarde/?c=11
+// https://nl.wikipedia.org/wiki/Vis_(voeding)
 module.exports = function (sequelize, DataTypes) {
   var Ingredient = sequelize.define('ingredient', {
     singular: {

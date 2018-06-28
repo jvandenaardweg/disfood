@@ -31,3 +31,12 @@ Use the following env variables for local development:
 `POSTGRES_DB=disfood`
 
 The `POSTGRES_PASSWORD`, `POSTGRES_USER`, `POSTGRES_DB` is used for Docker to create that database in a container on your local machine. Don't use those credentials in the project files. Instead, use `DATABASE_URL`.
+
+## Get copy of production DB for local dev
+Get a copy of the production database (ask repo maintainer) and import it in your local Dockerized PostgreSQL instance:
+
+1. Open your terminal and navigate to this project root.
+2. Create a live copy of the production DB: `heroku pg:backups:capture --app disfood` (or ask someone to do this)
+3. Download it: `heroku pg:backups:download --app disfood`. `latest.dump` should now be in the project root
+4. Run `yarn import:db` and fill in the local db password when asked for it `disfood`
+5. After the import, the database should be filled.
