@@ -21,6 +21,28 @@ html {
   box-sizing: inherit;
 }
 
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition-duration: 200ms;
+  transition-property: height, opacity, transform;
+  transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+  overflow: hidden;
+}
+
+.slide-left-enter,
+.slide-right-leave-active {
+  opacity: 0;
+  transform: translate(2em, 0);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+  opacity: 0;
+  transform: translate(-2em, 0);
+}
+
 body {
   padding: 0;
   margin: 0;
@@ -45,11 +67,20 @@ body {
 }
 
 .page {
-  padding: 1.5rem;
+  padding: 6rem 1.5rem 1.5rem 1.5rem;
+  max-width: $max-width;
+  margin: 0 auto;
 
   .page__header {
+    padding: 1.5rem 1.5rem 0 1.5rem;
     text-align: center;
     border-bottom: 1px $gray-90 solid;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6rem;
+    background-color: $color-white;
 
     h1, h2, h3, h4 {
       margin-top: 0;

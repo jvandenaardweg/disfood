@@ -1,6 +1,6 @@
 <template>
   <button type="button" class="btn btn-back" @click.prevent="handleClick">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
       <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
     </svg>
   </button>
@@ -11,7 +11,7 @@ export default {
   name: 'BtnBack',
   methods: {
     handleClick (event) {
-      this.$router.push('/recipes')
+      this.$router.go(-1)
       // this.$router.go(-1) // TODO: this will not work with referral links
     }
   }
@@ -28,7 +28,7 @@ export default {
     width: 4rem;
     line-height: 4rem;
     font-size: 1.6rem;
-    padding: 0 1rem;
+    padding: 0;
     font-weight: bold;
     display: inline-block;
     text-align: center;
@@ -42,10 +42,12 @@ export default {
     z-index: 10;
 
     svg {
-      height: 4rem;
+      height: 3rem;
+      // width: 100%;
       position: relative;
       fill: $color-white;
-      left: -2px;
+      top: 5px;
+      // left: -2px;
     }
   }
 }

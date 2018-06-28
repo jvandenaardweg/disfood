@@ -8,7 +8,10 @@ import RecipesIndex from './views/recipes/Index.vue'
 import RecipesId from './views/recipes/Id.vue'
 import RecipesHome from './views/recipes/Home.vue'
 import Favorites from './views/Favorites.vue'
-import Ingredients from './views/Ingredients.vue'
+
+import IngredientsIndex from './views/ingredients/Index.vue'
+import IngredientsHome from './views/ingredients/Home.vue'
+import IngredientsCategoryId from './views/ingredients/CategoryId.vue'
 
 import LayoutAnonymous from './layouts/Anonymous.vue'
 import LayoutAuthenticated from './layouts/Authenticated.vue'
@@ -56,7 +59,20 @@ export default new Router({
         {
           path: '/ingredients',
           name: 'ingredients',
-          component: Ingredients
+          component: IngredientsIndex,
+          meta: { transitionName: 'slide' },
+          children: [
+            {
+              path: '', // /ingredients
+              name: 'ingredients-home',
+              component: IngredientsHome
+            },
+            {
+              path: ':categoryId', // ingredients/123
+              name: 'ingredients-category-id',
+              component: IngredientsCategoryId
+            }
+          ]
         },
         {
           path: '/settings',
