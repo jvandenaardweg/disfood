@@ -57,7 +57,7 @@ export default {
 }
 
 .settings {
-  padding: 1.5rem 1.5rem 10rem 1.5rem;
+  padding: 1.5rem;
 
   header {
     text-align: center;
@@ -88,9 +88,9 @@ export default {
   // margin-top: 2rem;
   display: flex;
   justify-content: space-between;
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  // position: fixed;
+  // bottom: 0;
+  // left: 0;
   width: 100%;
   padding: 1.5rem;
   z-index: 10;
