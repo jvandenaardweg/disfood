@@ -9,7 +9,7 @@ let db = {}
 
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
-  logging: false,
+  logging: true,
   pool: {
     max: 15,
     min: 2,

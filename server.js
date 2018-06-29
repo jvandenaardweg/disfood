@@ -204,7 +204,7 @@ app.get('/api/ingredients', async (req, res) => {
 // Returns all recipes
 app.get('/api/recipes', async (req, res) => {
   let whereQuery = {}
-  const limit = 20
+  const limit = (req.query.limit) ? parseInt(req.query.limit) : 20
   const random = (req.query.random === "true") ? true : false
   const recipeTime = (req.query.recipeTime) ? parseFloat(req.query.recipeTime) : null
   const order = (random) ? sequelize.random() : {}
@@ -212,10 +212,6 @@ app.get('/api/recipes', async (req, res) => {
   const dirtyExcludedIngredients = req.query.excludedIngredients
   const dirtyExcludedRecipeIds = req.query.excludedRecipeIds
   const dirtyIncludeRecipeIds = req.query.ids
-
-  // if (!dirtyExcludedIngredients) {
-  //   return res.json({'message': 'invalid request'})
-  // }
 
   const validExcludedIngredients = (dirtyExcludedIngredients) ? dirtyExcludedIngredients.split(',').every(ingredient => typeof ingredient === 'string') : null
   const validExcludedRecipeIds = (dirtyExcludedRecipeIds) ? dirtyExcludedRecipeIds.split(',').every(id => Number.isInteger(id)) : null
@@ -226,6 +222,18 @@ app.get('/api/recipes', async (req, res) => {
   // TODO: create singular and plural ingredients based on the user input
   // For example: ei > eieren, paprika > paprika's
   // Also, "vis", should return in "zalm", "tonijn", "gamba's", "mosselen" etc...
+
+  if (excludeIngredients) {
+    // TODO: Check how this performs with more then 10.000 rows. Possible performance impact?
+    // Ingredients is not indexed in the db, so this query could possibly slow down in the future
+    // We'll take a look at it then, for now it suits our needs.
+    Object.assign(whereQuery, {
+      ingredients: sequelize.literal(`
+        ARRAY_TO_STRING("recipe"."ingredients", ',')
+        NOT SIMILAR TO '%(${excludeIngredients.join('|')})%'`
+      )
+    })
+  }
 
   if (excludeRecipeIds) {
     Object.assign(whereQuery, {
@@ -266,27 +274,8 @@ app.get('/api/recipes', async (req, res) => {
         attributes: []
       }
     }],
-    order: order
-  })
-  .then(recipes => {
-    console.log('Matching excluded recipes:', dirtyExcludedIngredients)
-
-    const possibleLikedRecipes = recipes.filter(recipe => {
-      // Every ingredient must not match any ingredient the user does not like
-      return recipe.ingredients.every(ingredient => {
-        return excludeIngredients.every(excluded => {
-          return !ingredient.includes(excluded)
-        })
-      })
-    })
-
-    console.log('Total matches:', possibleLikedRecipes.length, 'of', recipes.length, 'recipes')
-
-    if (possibleLikedRecipes.length > limit) {
-      return possibleLikedRecipes.slice(0, limit) // only return 30 for now
-    } else {
-      return possibleLikedRecipes
-    }
+    order: order,
+    limit: limit
   })
 
   res.json(recipes)
