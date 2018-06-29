@@ -82,7 +82,7 @@ export default {
     async getMoreData () {
       try {
         await this.$store.dispatch('recipes/getMore', {
-          ingredients: this.ingredientsList,
+          ingredients: this.excludedIngredients,
           recipeTime: this.recipeTime
         })
       } catch (err) {
@@ -96,7 +96,7 @@ export default {
 
       try {
         await this.$store.dispatch('recipes/getAll', {
-          ingredients: this.ingredientsList,
+          ingredients: this.excludedIngredients,
           recipeTime: this.recipeTime
         })
       } catch (err) {
