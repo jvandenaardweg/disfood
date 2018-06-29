@@ -216,6 +216,7 @@ app.get('/api/recipes', async (req, res) => {
   const validExcludedIngredients = (dirtyExcludedIngredients) ? dirtyExcludedIngredients.split(',').every(ingredient => typeof ingredient === 'string') : null
   const validExcludedRecipeIds = (dirtyExcludedRecipeIds) ? dirtyExcludedRecipeIds.split(',').every(id => Number.isInteger(id)) : null
 
+  // TODO: add validation to make sure the lists does only contain strings and not weird query hacking attempts
   const excludeIngredients = (dirtyExcludedIngredients) ? dirtyExcludedIngredients.toLowerCase().split(',') : null
   const excludeRecipeIds = (dirtyExcludedRecipeIds) ? dirtyExcludedRecipeIds.split(',') : null
   const includeRecipeIds = (dirtyIncludeRecipeIds) ? dirtyIncludeRecipeIds.split(',') : null
