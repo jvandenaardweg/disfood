@@ -125,9 +125,6 @@ export default {
     margin-right: -1px;
     margin-bottom: -1px;
     position: relative;
-    // margin-right: 5px;
-    // margin-bottom: 5px;
-    // border-radius: 3px;
 
     &.is-active {
       border-color: $color-primary;
@@ -162,7 +159,7 @@ export default {
         display: none;
       }
     }
-    
+
     .visual {
       margin-top: 1.5rem;
       height: 5rem;

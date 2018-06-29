@@ -59,9 +59,7 @@ export default {
   padding: 1.5rem 0;
 
   input {
-    // width: 20px;
     display: none;
-    // margin-left: auto;
   }
 
   input:checked + .checkbox-custom {
@@ -74,8 +72,6 @@ export default {
     height: 20px;
     border: 1px $gray-90 solid;
     background-color: $gray-90;
-
-
   }
 }
 </style>

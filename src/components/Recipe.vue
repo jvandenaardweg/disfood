@@ -107,7 +107,7 @@ export default {
     },
     showQuickNavigation () {
       const hasMoreRecipes = this.$store.state.recipes.recipes.length > 1
-      const hasIndex = (this.index !== null) ? true : false
+      const hasIndex = (this.index !== null)
       return hasMoreRecipes && hasIndex
     }
   },

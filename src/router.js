@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import About from './views/About.vue'
+
 import Settings from './views/Settings.vue'
-import Onboarding from './views/Onboarding.vue'
+
 import OnboardingStep from './views/OnboardingStep.vue'
+
 import RecipesIndex from './views/recipes/Index.vue'
 import RecipesId from './views/recipes/Id.vue'
 import RecipesHome from './views/recipes/Home.vue'
+
 import Favorites from './views/Favorites.vue'
 
 import IngredientsIndex from './views/ingredients/Index.vue'
