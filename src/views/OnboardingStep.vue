@@ -128,7 +128,7 @@
         <h2>Soms heb je wat haast, en soms heb je wat langer de tijd. Hoeveel tijd heb jij vandaag om in de keuken te staan?</h2>
       </header>
       <div class="onboarding-step__body">
-        <input-recipe-time @recipeTime="handleRecipeTime"></input-recipe-time>
+        <input-recipe-time @change="handleRecipeTime"></input-recipe-time>
       </div>
       <div class="onboarding-step__footer">
         <pagination-dots :dots="4" :activeIndex="2"></pagination-dots>

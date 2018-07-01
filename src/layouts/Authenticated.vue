@@ -1,7 +1,9 @@
 <template>
   <div class="layout-authenticated">
     <tab-bar></tab-bar>
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

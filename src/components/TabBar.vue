@@ -38,6 +38,7 @@ export default {
   display: flex;
   position: fixed;
   left: 0;
+  right: 0;
   width: 100%;
   z-index: 100;
   height: 4.9rem;
@@ -48,6 +49,8 @@ export default {
   border-top: 1px $gray-90 solid;
   padding: 0;
   text-align: center;
+  max-width: $max-width;
+  margin: 0 auto;
 
   .tabbar__item {
     align-self: center;

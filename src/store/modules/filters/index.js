@@ -13,6 +13,12 @@ if (cachedRecipeTime) {
   state.recipeTime = parseFloat(cachedRecipeTime)
 }
 
+state.ingredients = {
+  '4': ['aardbei', 'banaan', 'appel', 'sinaasappel'],
+  '2': ['kip', 'hamburger'],
+  '3': ['zalm', 'tonijn']
+}
+
 export default {
   namespaced: true,
   state,

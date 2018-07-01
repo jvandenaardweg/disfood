@@ -1,18 +1,18 @@
 <template>
-  <div class="input-recipe-time form-control">
-    <select name="recipeTime" v-model="recipeTime">
-      <option selected disabled :value="null">Hoeveel tijd heb jij?</option>
-      <option :value="15">Weinig tijd (maximaal 15 minuten)</option>
-      <option :value="30">Wel wat tijd (maximaal 30 minuten)</option>
-      <option :value="60">Veel tijd (meer dan 30 minuten)</option>
-    </select>
-  </div>
-
+  <custom-select name="store"
+  :selected="recipeTimeOptions.selected"
+  :options="recipeTimeOptions.options"
+  @input="handleRecipeTimeChange"></custom-select>
 </template>
 
 <script>
+import CustomSelect from '@/components/CustomSelect'
+
 export default {
   name: 'InputRecipeTime',
+  components: {
+    CustomSelect
+  },
   data: () => ({
     recipeTime: null
   }),
@@ -20,10 +20,35 @@ export default {
     const savedRecipeTime = this.$store.getters['filters/recipeTime']
     if (savedRecipeTime) this.recipeTime = savedRecipeTime
   },
-  watch: {
-    recipeTime (newValue, oldValue) {
-      if (newValue) this.$store.commit('filters/setRecipeTime', newValue)
-      this.$emit('recipeTime', this.recipeTime)
+  computed: {
+    recipeTimeOptions () {
+      return {
+        selected: this.recipeTime,
+        options: [
+          {
+            text: 'Hoeveel tijd heb jij?',
+            value: null
+          },
+          {
+            text: 'Weinig tijd (max. 15 minuten)',
+            value: 15
+          },
+          {
+            text: 'Wel wat tijd (max. 30 minuten)',
+            value: 30
+          },
+          {
+            text: 'Veel tijd (meer dan 30 minuten)',
+            value: 60
+          }
+        ]
+      }
+    }
+  },
+  methods: {
+    handleRecipeTimeChange (recipeTime) {
+      this.$store.commit('filters/setRecipeTime', recipeTime)
+      this.$emit('change', recipeTime)
     }
   }
 }

@@ -2,17 +2,7 @@
   <div class="recipes">
     <header>
       <h1>Hoeveel tijd heb jij vandaag?</h1>
-      <input-recipe-time @recipeTime="handleRecipeTimeChange"></input-recipe-time>
-      <!-- <button type="button" class="btn btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-    <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/>
-</svg>
-</button> -->
-      <!-- <small>Exclusief deze ingredienten:</small>
-      <div class="recipes-filter__ingredients">
-        <btn className="btn-secondary btn-small" :label="ingredient" v-for="(ingredient, index) in excludedIngredients" :key="index" icon="&times;"></btn>
-      </div> -->
-      <!-- <loader v-if="isLoading && !recipes.length"></loader> -->
-      <!-- <btn className="btn-primary btn-block" label="Verras mij met suggesties" @click.native="handleRecipeTimeChange"></btn> -->
+      <input-recipe-time @change="handleRecipeTimeChange"></input-recipe-time>
     </header>
 
     <recipes-carousel :title="order" :recipes="recipes" v-for="(order, index) in recipesOrder" :key="index"></recipes-carousel>
@@ -37,6 +27,10 @@ export default {
   data: () => ({
     isLoading: null
   }),
+  mounted () {
+    console.log('get')
+    this.getNewData()
+  },
   computed: {
     ...mapGetters({
       recipes: 'recipes/allRecipes',

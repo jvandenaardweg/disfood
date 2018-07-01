@@ -58,12 +58,17 @@ body {
   text-align: left;
   border-bottom: 1px $gray-90 solid;
   padding-bottom: 2rem;
+  margin-bottom: 1.5rem;
 
   .section__header {
     h1, h2, h3, h4 {
       margin-bottom: 0.5rem;
     }
   }
+}
+
+.text-center {
+  text-align: center !important;
 }
 
 .page {
@@ -78,9 +83,13 @@ body {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     width: 100%;
     height: 6rem;
     background-color: $color-white;
+    z-index: 10;
+    max-width: $max-width;
+    margin: 0 auto;
 
     h1, h2, h3, h4 {
       margin-top: 0;
@@ -133,5 +142,19 @@ body {
 h1 {
   font-family: 'Merriweather', Palatino, Georgia, serif;
   font-size: 2.4rem;
+}
+
+.form-control {
+  height: 5rem;
+  padding: 0 2rem;
+  // line-height: 5rem;
+  color: $color-black;
+  background-color: $gray-90;
+  border: 0;
+  border-radius: 0.3rem;
+  // border-top-left-radius: 0.3rem;
+  // border-bottom-left-radius: 0.3rem;
+  font-size: 1.6rem;
+  width: 100%;
 }
 </style>
