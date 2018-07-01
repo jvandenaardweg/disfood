@@ -24,23 +24,22 @@
 <script>
 import debounce from 'lodash/debounce'
 import Btn from '@/components/Btn'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'IngredientsForm',
   components: {
     Btn
   },
-  beforeMount () {
-    const cachedExcludedIngredients = window.localStorage.getItem('excludedIngredients')
-    if (cachedExcludedIngredients) {
-      this.excludedIngredients = cachedExcludedIngredients.split(',')
-    }
-  },
   data: () => ({
     excludeIngredient: null,
-    excludedIngredients: [],
     suggestions: []
   }),
+  computed: {
+    ...mapGetters({
+      excludedIngredients: 'filters/excludedIngredients'
+    })
+  },
   methods: {
     handleChange: debounce(async function (event) {
       if (this.excludeIngredient && this.excludeIngredient.length > 3) {
