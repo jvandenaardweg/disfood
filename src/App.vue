@@ -147,14 +147,14 @@ h1 {
 .form-control {
   height: 5rem;
   padding: 0 2rem;
-  // line-height: 5rem;
   color: $color-black;
   background-color: $gray-90;
   border: 0;
   border-radius: 0.3rem;
-  // border-top-left-radius: 0.3rem;
-  // border-bottom-left-radius: 0.3rem;
   font-size: 1.6rem;
   width: 100%;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  outline: none;
 }
 </style>

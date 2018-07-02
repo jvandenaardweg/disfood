@@ -39,7 +39,7 @@ export default {
     async handleInput (event) {
       const value = event.target.value
       this.$emit('input', value)
-      
+
       if (this.searchQuery && this.searchQuery.length > 3) {
         const ingredientSuggestions = await this.$store.dispatch('filters/getIngredients', {
           search: this.searchQuery
