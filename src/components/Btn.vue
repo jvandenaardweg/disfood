@@ -92,6 +92,15 @@ export default {
     }
   }
 
+  &.btn-link {
+    color: $color-primary;
+    background: none;
+    border: 0;
+    font-weight: normal;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
   &.btn-block {
     display: block;
     width: 100%;

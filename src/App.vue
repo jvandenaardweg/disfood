@@ -90,6 +90,7 @@ body {
     z-index: 10;
     max-width: $max-width;
     margin: 0 auto;
+    display: flex;
 
     h1, h2, h3, h4 {
       margin-top: 0;
@@ -98,6 +99,11 @@ body {
 
     h2 {
       color: $gray-70;
+    }
+
+    .btn {
+      margin-left: auto;
+      // float: right;
     }
   }
 
