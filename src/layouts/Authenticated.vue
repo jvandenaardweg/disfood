@@ -20,6 +20,6 @@ export default {
 
 <style lang="scss">
 .layout-authenticated {
-  padding-bottom: 6rem; // tabbar spacer
+  padding-bottom: 5rem; // tabbar spacer
 }
 </style>

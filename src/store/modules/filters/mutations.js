@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import initialState from '@/store/modules/recipes/initialState'
+import initialState from '@/store/modules/filters/initialState'
 
 export default {
   setExcludedIngredient (state, item) {
@@ -14,6 +14,9 @@ export default {
       state.excludedIngredients.splice(index, 1)
       localStorage.setItem('excludedIngredients', state.excludedIngredients.join(','))
     }
+  },
+  addIngredientCategories (state, items) {
+    Vue.set(state, 'ingredientCategories', items)
   },
   setRecipeTime (state, time) {
     Vue.set(state, 'recipeTime', time)

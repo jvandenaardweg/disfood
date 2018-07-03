@@ -12,7 +12,7 @@
     <section class="section" v-if="!searchQuery">
       <category-blocks
         :categories="ingredientCategories"
-        :category-items="ingredients"
+        :ingredients="ingredients"
         :selected-category-items="excludedIngredients"
         base-url="ingredients">
       </category-blocks>
@@ -21,6 +21,12 @@
     <!-- <section class="section">
       <ingredients-form></ingredients-form>
     </section> -->
+
+    <footer class="page__footer">
+      <h2>Mis je iets?</h2>
+      <p>Laat het ons weten! Met jouw hulp kunnen wij de app beter maken voor jou én anderen.</p>
+      <btn label="Geef feedback" className="btn-outline-white"></btn>
+    </footer>
   </div>
 </template>
 
@@ -45,87 +51,88 @@ export default {
   computed: {
     ...mapGetters({
       excludedIngredients: 'filters/excludedIngredients',
-      ingredients: 'filters/ingredients'
-    }),
-    ingredientCategories () {
-      return [
-        {
-          id: 1,
-          name: 'Groenten',
-          slug: 'vegetables'
-        },
-        {
-          id: 2,
-          name: 'Vlees',
-          slug: 'meat'
-        },
-        {
-          id: 3,
-          name: 'Vis',
-          slug: 'fish'
-        },
-        {
-          id: 4,
-          name: 'Fruit',
-          slug: 'fruit'
-        },
-        {
-          id: 5,
-          name: 'Kruiden',
-          slug: 'herbs'
-        },
-        {
-          id: 6,
-          name: 'Zuivel',
-          slug: 'dairy'
-        },
-        {
-          id: 7,
-          name: 'Pasta',
-          slug: 'pasta'
-        },
-        {
-          id: 8,
-          name: 'Noten & zaden',
-          slug: 'nuts'
-        },
-        // {
-        //   id: 9,
-        //   name: 'Zaden & pitten',
-        //   slug: 'seeds-pits'
-        // },
-        {
-          id: 10,
-          name: 'Rijst',
-          slug: 'rice'
-        },
-        {
-          id: 11,
-          name: 'Sauzen',
-          slug: 'sauces'
-        },
-        {
-          id: 12,
-          name: 'Eieren',
-          slug: 'eggs'
-        },
-        {
-          id: 13,
-          name: 'Brood & Granen',
-          slug: 'grains'
-        },
-        {
-          id: 14,
-          name: 'Aardappelen',
-          slug: 'potato'
-        },
-        {
-          id: 15,
-          name: 'Oliën',
-          slug: 'oils'
-        }
-      ]
-    }
+      ingredients: 'ingredients/ingredients',
+      ingredientCategories: 'ingredients/ingredientCategories'
+    })
+    // ingredientCategories () {
+    //   return [
+    //     {
+    //       id: 1,
+    //       name: 'Groenten',
+    //       slug: 'vegetables'
+    //     },
+    //     {
+    //       id: 2,
+    //       name: 'Vlees',
+    //       slug: 'meat'
+    //     },
+    //     {
+    //       id: 3,
+    //       name: 'Vis',
+    //       slug: 'fish'
+    //     },
+    //     {
+    //       id: 4,
+    //       name: 'Fruit',
+    //       slug: 'fruit'
+    //     },
+    //     {
+    //       id: 5,
+    //       name: 'Kruiden',
+    //       slug: 'herbs'
+    //     },
+    //     {
+    //       id: 6,
+    //       name: 'Zuivel',
+    //       slug: 'dairy'
+    //     },
+    //     {
+    //       id: 7,
+    //       name: 'Pasta',
+    //       slug: 'pasta'
+    //     },
+    //     {
+    //       id: 8,
+    //       name: 'Noten & zaden',
+    //       slug: 'nuts'
+    //     },
+    //     // {
+    //     //   id: 9,
+    //     //   name: 'Zaden & pitten',
+    //     //   slug: 'seeds-pits'
+    //     // },
+    //     {
+    //       id: 10,
+    //       name: 'Rijst',
+    //       slug: 'rice'
+    //     },
+    //     {
+    //       id: 11,
+    //       name: 'Sauzen',
+    //       slug: 'sauces'
+    //     },
+    //     {
+    //       id: 12,
+    //       name: 'Eieren',
+    //       slug: 'eggs'
+    //     },
+    //     {
+    //       id: 13,
+    //       name: 'Brood & Granen',
+    //       slug: 'grains'
+    //     },
+    //     {
+    //       id: 14,
+    //       name: 'Aardappelen',
+    //       slug: 'potato'
+    //     },
+    //     {
+    //       id: 15,
+    //       name: 'Oliën',
+    //       slug: 'oils'
+    //     }
+    //   ]
+    // }
   },
   methods: {
     handleSearchInput (value) {

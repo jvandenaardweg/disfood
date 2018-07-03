@@ -2,11 +2,13 @@
   <div>
     <header class="page__header">
       <btn-back :link="backLink" color="#0077FF"></btn-back>
-      <h1>[category]</h1>
+      <h1>{{ categoryName }}</h1>
       <btn :label="selectAllLabel" className="btn-link" @click.native="handleToggleSelectAll"></btn>
     </header>
+    <!-- {{ categoryIngredients }} -->
     <list-group-checkboxes
-      :items="ingredients[categoryId]"
+      v-if="categoryIngredients"
+      :items="categoryIngredients"
       :selected-items="excludedIngredients"
       @change="handleChange">
     </list-group-checkboxes>
@@ -28,27 +30,40 @@ export default {
   },
   computed: {
     ...mapGetters({
-      ingredients: 'filters/ingredients',
+      ingredientCategories: 'ingredients/ingredientCategories',
+      ingredients: 'ingredients/ingredients',
       excludedIngredients: 'filters/excludedIngredients'
     }),
+    categoryIngredients () {
+      if (this.ingredients.length) {
+        return this.ingredients.filter(ingredient => ingredient.ingredientsCategoryId === this.categoryId)
+      }
+    },
     backLink () {
       return '/ingredients'
     },
     categoryId () {
-      return this.$route.params.categoryId
+      return parseInt(this.$route.params.categoryId)
+    },
+    categoryName () {
+      if (this.ingredientCategories.length && this.categoryId) {
+        const category = this.ingredientCategories.find(category => category.id === this.categoryId)
+        return category.name
+      } else {
+        return null
+      }
     },
     hasSelectedAllItems () {
-      const ingredients = this.ingredients[this.categoryId]
-      if (ingredients) {
+      if (this.categoryIngredients && this.categoryIngredients.length) {
         // Determine if the user has selected all the items in this category
-        const totalSelectedItems = ingredients.reduce((prev, ingredient) => {
-          if (this.excludedIngredients.includes(ingredient)) {
+        const totalSelectedItems = this.categoryIngredients.reduce((prev, ingredient) => {
+          if (this.excludedIngredients.includes(ingredient.name)) {
             prev = prev + 1
           }
           return prev
         }, 0)
 
-        if (totalSelectedItems === ingredients.length) {
+        if (totalSelectedItems === this.categoryIngredients.length) {
           return true
         }
       }
@@ -64,14 +79,9 @@ export default {
   methods: {
     handleToggleSelectAll () {
       if (this.hasSelectedAllItems) {
-        // Remove the ingredients from the users list
-        // Determine the ingredients to remove in this category
-        const newExcludedIngredientsArray = this.excludedIngredients.filter(ingredient => {
-          return this.ingredients[this.categoryId].includes(ingredient)
-        })
-
-        newExcludedIngredientsArray.forEach(ingredient => {
-          this.$store.commit('filters/removeExcludedIngredient', ingredient)
+        // Uncheck all
+        this.categoryIngredients.forEach(ingredient => {
+          this.$store.commit('filters/removeExcludedIngredient', ingredient.name)
         })
 
         // TODO: when the user selects all in a category, also use the category name in the excluded ingredients?
@@ -79,9 +89,9 @@ export default {
         // Same goes for "meat" and others...
         // We probably should do that in the backend: when the ingredients match all in a certain category, also include that category name
       } else {
-        // check all
-        this.ingredients[this.categoryId].forEach(ingredient => {
-          this.$store.commit('filters/setExcludedIngredient', ingredient)
+        // Check all
+        this.categoryIngredients.forEach(ingredient => {
+          this.$store.commit('filters/setExcludedIngredient', ingredient.name)
         })
       }
     },

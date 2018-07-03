@@ -4,7 +4,7 @@
     <list-group-checkboxes
       v-if="searchQuery && suggestions"
       :items="suggestions"
-      :selected-items="[]"
+      :selected-items="excludedIngredients"
       @change="handleChange">
     </list-group-checkboxes>
   </div>
@@ -45,7 +45,7 @@ export default {
           search: this.searchQuery
         })
         if (ingredientSuggestions && ingredientSuggestions.length) {
-          this.suggestions = ingredientSuggestions.map(ingredient => ingredient.singular).sort((a, b) => a.length - b.length)
+          this.suggestions = ingredientSuggestions.sort((a, b) => a.length - b.length)
         }
       }
     }

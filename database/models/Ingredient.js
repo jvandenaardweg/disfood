@@ -7,38 +7,28 @@
 // https://nl.wikipedia.org/wiki/Vis_(voeding)
 module.exports = function (sequelize, DataTypes) {
   var Ingredient = sequelize.define('ingredient', {
-    singular: {
-      type: DataTypes.STRING, // paprika's
+    name: {
+      type: DataTypes.STRING, // doperwten
       allowNull: false,
       unique: true
     },
-    plural: {
-      type: DataTypes.STRING, // paprika's
+    singular: {
+      type: DataTypes.STRING, // doperwt
       allowNull: true,
       unique: true
     },
-    quantityUnitSingular: {
-      type: DataTypes.STRING, // teen, ml, l
-      allowNull: true
-    },
-    quantityUnitPlural: {
-      type: DataTypes.STRING, // tenen
-      allowNull: true
-    },
-    totalExcludeByUsers: { // So we can use this in suggestions to other users
-      type: DataTypes.INTEGER, // 1000
+    plural: {
+      type: DataTypes.STRING, // doperwten
       allowNull: true,
-      defaultValue: 0
-    },
-    totalIncludesByUsers: { // So we can use this in suggestions to other users
-      type: DataTypes.INTEGER, // 1000
-      allowNull: true,
-      defaultValue: 0
+      unique: true
     }
   })
 
   Ingredient.associate = function (models) {
     Ingredient.belongsTo(models.language, {
+      onDelete: 'RESTRICT'
+    })
+    Ingredient.belongsTo(models.ingredientsCategories, {
       onDelete: 'RESTRICT'
     })
   }

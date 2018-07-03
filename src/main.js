@@ -22,6 +22,10 @@ Vue.use(VueLazyload, {
   attempt: 1
 })
 
+// Load up the app with initial data we need throughout the whole app
+store.dispatch('ingredients/getIngredients')
+store.dispatch('ingredients/getIngredientCategories')
+
 router.beforeEach((to, from, next) => {
   if (!localStorage.getItem('excludedIngredients') && !to.path.includes('onboarding')) {
     next({

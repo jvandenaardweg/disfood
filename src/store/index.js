@@ -4,13 +4,15 @@ import Vuex from 'vuex'
 
 import RecipesStore from '@/store/modules/recipes'
 import FiltersStore from '@/store/modules/filters'
+import IngredientsStore from '@/store/modules/ingredients'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     recipes: RecipesStore,
-    filters: FiltersStore
+    filters: FiltersStore,
+    ingredients: IngredientsStore
   }
   // plugins: [createPersistedState({
   //   paths: [

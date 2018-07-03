@@ -1,9 +1,7 @@
 export default () => {
   return {
-    excludedIngredients: [],
-    ingredients: {},
+    ingredients: [],
     ingredientCategories: [],
-    recipeTime: null,
     isLoading: null,
     error: null
   }

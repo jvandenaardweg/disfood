@@ -5,6 +5,7 @@ const Recipe = require('./database/').recipe
 const RecipesLabels = require('./database/').recipesLabels
 const Label = require('./database/').label
 const Ingredient = require('./database/').ingredient
+const IngredientsCategories = require('./database/').ingredientsCategories
 const sequelize = require('./database/').sequelize
 
 const port = process.env.PORT || 3000
@@ -142,6 +143,33 @@ app.get('/api/labels', async (req, res) => {
   return res.json({labels: labels[0] })
 })
 
+// Returns all ingredient categories
+app.get('/api/ingredients/categories', async (req, res) => {
+  const categories = await IngredientsCategories.findAll({
+    attributes: ['id', 'name', 'singular', 'plural'],
+    order: [
+      ['id', 'ASC']
+    ]
+  })
+  return res.json(categories)
+})
+
+app.get('/api/ingredients/categories/:categoryId', async (req, res) => {
+  const categoryId = parseInt(req.params.categoryId)
+  const categories = await Ingredient.findAll({
+    attributes: ['id', 'name', 'singular', 'plural'],
+    where: {
+      ingredientsCategoryId: {
+        $eq: categoryId
+      }
+    },
+    order: [
+      ['name', 'ASC']
+    ]
+  })
+  return res.json(categories)
+})
+
 // Returns all ingredients
 app.get('/api/ingredients', async (req, res) => {
   let whereQuery = {}
@@ -151,15 +179,25 @@ app.get('/api/ingredients', async (req, res) => {
   const dirtySearch = req.query.search
 
   if (dirtyExcludedIngredients) {
+    // const excludeIngredientsQuery = dirtyExcludedIngredients.split(',').map(ingredient => {
+    //   return [
+    //     {
+    //       singular: {
+    //         $notILike: `%${ingredient}%`
+    //       }
+    //     },
+    //     {
+    //       plural: {
+    //         $notILike: `%${ingredient}%`
+    //       }
+    //     }
+    //   ][0]
+    // })
+
     const excludeIngredientsQuery = dirtyExcludedIngredients.split(',').map(ingredient => {
       return [
         {
-          singular: {
-            $notILike: `%${ingredient}%`
-          }
-        },
-        {
-          plural: {
+          name: {
             $notILike: `%${ingredient}%`
           }
         }
@@ -175,27 +213,33 @@ app.get('/api/ingredients', async (req, res) => {
 
   if (dirtySearch) {
     const searchLower = dirtySearch.toLowerCase()
+    // const query = {
+    //   $or: [
+    //     {
+    //       singular: {
+    //         $iLike: `%${searchLower}%`
+    //       }
+    //     },
+    //     {
+    //       plural: {
+    //         $iLike: `%${searchLower}%`
+    //       }
+    //     }
+    //   ]
+    // }
     const query = {
-      $or: [
-        {
-          singular: {
-            $iLike: `%${searchLower}%`
-          }
-        },
-        {
-          plural: {
-            $iLike: `%${searchLower}%`
-          }
-        }
-      ]
+      name: {
+        $iLike: `%${searchLower}%`
+      }
     }
 
     Object.assign(whereQuery, query)
   }
 
   const ingredients = await Ingredient.findAll({
+    attributes: ['id', 'name', 'singular', 'plural', 'ingredientsCategoryId'],
     where: whereQuery,
-    limit: limit,
+    // limit: limit,
     order: [[sequelize.fn('length', sequelize.col('singular')), 'ASC']]
   })
   res.json(ingredients)

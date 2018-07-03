@@ -72,12 +72,12 @@ body {
 }
 
 .page {
-  padding: 6rem 1.5rem 1.5rem 1.5rem;
+  padding: 6rem 1.5rem 0 1.5rem;
   max-width: $max-width;
   margin: 0 auto;
 
   .page__header {
-    padding: 1.5rem 1.5rem 0 1.5rem;
+    padding: 0 1.5rem;
     text-align: center;
     border-bottom: 1px $gray-90 solid;
     position: fixed;
@@ -91,10 +91,17 @@ body {
     max-width: $max-width;
     margin: 0 auto;
     display: flex;
+    justify-content: space-between;
 
     h1, h2, h3, h4 {
-      margin-top: 0;
-      margin-bottom: 1rem;
+      margin: 0;
+      align-self: center;
+      position: absolute;
+      width: 100%;
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      font-size: 1.6rem;
     }
 
     h2 {
@@ -123,13 +130,21 @@ body {
   }
 
   .page__footer {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+    // display: bloc;
+    // justify-content: space-between;
+    // width: 100%;
     padding: 1.5rem;
     z-index: 10;
-    background-color: $color-white;
+    background-color: $color-primary;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    color: $color-white;
+    text-align: center;
 
+    h2 {
+      font-size: 2rem;
+      margin: 0;
+    }
     .btn {
       width: 100%;
     }

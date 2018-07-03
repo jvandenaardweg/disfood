@@ -40,8 +40,8 @@ export default {
   }
 
   &.btn-primary {
-    background-color: #0077FF;
-    color: #ffffff;
+    background-color: $color-primary;
+    color: $color-white;
     font-size: 1.8rem;
     height: 5rem;
     line-height: 5rem;
@@ -71,17 +71,12 @@ export default {
     padding: 0 2rem;
     border: 0;
     border-radius: 0.3rem;
-
     display: inline-block;
-    // padding: 0.85rem 1.5rem;
-    // border: 0;
     border-radius: 0.3rem;
-    // font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
     margin-right: 0.5rem;
     vertical-align: middle;
-    // line-height: 1.4rem;
 
     &.btn-small {
       padding: 0.85rem 1.5rem;
@@ -99,6 +94,18 @@ export default {
     font-weight: normal;
     padding-right: 0;
     padding-left: 0;
+  }
+
+  &.btn-outline-white {
+    background: none;
+    font-size: 1.6rem;
+    height: 5rem;
+    line-height: 5rem;
+    padding: 0 2rem;
+    border: 0;
+    border-radius: 0.3rem;
+    color: $color-white;
+    border: 1px $color-white solid;
   }
 
   &.btn-block {

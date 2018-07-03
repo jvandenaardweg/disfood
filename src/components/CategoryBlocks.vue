@@ -4,7 +4,7 @@
       <router-link :to="`/${baseUrl}/${category.id}`">
         <badge :variant="badgeVariant(category.id)" :label="badgeLabel(category.id)"></badge>
         <div class="category-blocks__visual">
-          <ingredient-category-icon :category="category.slug"></ingredient-category-icon>
+          <ingredient-category-icon :category="category.singular"></ingredient-category-icon>
         </div>
         <h3>{{ category.name }}</h3>
       </router-link>
@@ -26,8 +26,8 @@ export default {
     categories: {
       type: Array
     },
-    categoryItems: {
-      type: Object
+    ingredients: {
+      type: Array
     },
     selectedCategoryItems: {
       type: Array
@@ -37,26 +37,27 @@ export default {
     }
   },
   methods: {
-    totalCategoryItems (categoryId) {
-      const category = this.categoryItems[categoryId]
-      if (category) {
-        return this.categoryItems[categoryId].length
+    totalCategoryIngredients (categoryId) {
+      const ingredients = this.ingredients.filter(ingredient => ingredient.ingredientsCategoryId === categoryId)
+      if (ingredients) {
+        return ingredients.length
       } else {
         return 0
       }
     },
     badgeLabel (categoryId) {
-      return `${this.totalSelectedCategoryItems(categoryId)}/${this.totalCategoryItems(categoryId)}`
+      return `${this.totalSelectedIngredients(categoryId)}/${this.totalCategoryIngredients(categoryId)}`
     },
     badgeVariant (categoryId) {
-      if (this.totalSelectedCategoryItems(categoryId)) {
+      if (this.totalSelectedIngredients(categoryId)) {
         return 'primary'
       }
     },
-    totalSelectedCategoryItems (categoryId) {
-      if (this.categoryItems[categoryId]) {
-        return this.categoryItems[categoryId].reduce((prev, next) => {
-          if (this.selectedCategoryItems.includes(next)) {
+    totalSelectedIngredients (categoryId) {
+      const items = this.ingredients.filter(ingredient => ingredient.ingredientsCategoryId === categoryId)
+      if (items) {
+        return items.reduce((prev, ingredient) => {
+          if (this.selectedCategoryItems.includes(ingredient.name)) {
             prev = prev + 1
           }
           return prev
@@ -97,14 +98,7 @@ export default {
       display: block;
       text-decoration: none;
       color: $color-black;
-
-      > svg {
-        width: 2rem;
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        display: none;
-      }
+      height: 100%;
     }
 
     .badge {
