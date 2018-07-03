@@ -1,5 +1,7 @@
 # disfood
-Door aan te geven welke ingrediënten je niet lust worden suggesties gegeven voor gerechten die je kan maken met ingrediënten te koop in jouw lokale supermarkt. Momenteel wordt alleen Albert Heijn ondersteund maar willen wij dit concept uitrollen voor alle bekende supermarkten in Nederland. 
+Door aan te geven welke ingrediënten je niet wilt eten (of écht niet lekker vindt) worden suggesties gegeven voor gerechten die je wél lekker vindt. 
+
+De ingrediënten zijn te koop in jouw lokale supermarkt. Momenteel wordt alleen Albert Heijn ondersteund maar willen wij dit concept uitrollen voor alle bekende supermarkten in Nederland. 
 
 ## Waarom?
 Vaak weten we juist meer wat we níet willen eten, dan wat we wél willen eten. Laat deze app voor je werken op momenten dat je even niet meer weet waar je trek in hebt. In plaats van aan te geven wat je wel zou willen eten kan je met deze app aangeven wat je juist *niet* wilt eten. Ben je geen fan van spruitjes? Of rode bietjes? Geef dat op in de app en je zal geen gerechten zien waar dat in zit. Dat maakt de keus wat makkelijker op momenten dat je snel inspiratie nodig hebt.
