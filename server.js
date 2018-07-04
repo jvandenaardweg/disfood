@@ -247,7 +247,9 @@ app.get('/api/ingredients', async (req, res) => {
 
 // Returns all recipes
 app.get('/api/recipes', async (req, res) => {
-  let whereQuery = {}
+  let whereQuery = {
+    $and: []
+  }
   const limit = (req.query.limit) ? parseInt(req.query.limit) : 20
   const random = (req.query.random === "true") ? true : false
   const recipeTime = (req.query.recipeTime) ? parseFloat(req.query.recipeTime) : null
@@ -272,22 +274,26 @@ app.get('/api/recipes', async (req, res) => {
     // TODO: Check how this performs with more then 10.000 rows. Possible performance impact?
     // Ingredients is not indexed in the db, so this query could possibly slow down in the future
     // We'll take a look at it then, for now it suits our needs.
-    Object.assign(whereQuery, {
+    whereQuery.$and.push({
       ingredients: sequelize.literal(`
         ARRAY_TO_STRING("recipe"."ingredients", ',')
         NOT SIMILAR TO '%(${excludeIngredients.join('|')})%'`
       )
     })
+
+    whereQuery.$and.push({
+      title: sequelize.literal(`"recipe"."title" NOT SIMILAR TO '%(${excludeIngredients.join('|')})%'`)
+    })
   }
 
   if (excludeRecipeIds) {
-    Object.assign(whereQuery, {
-      sourceRecipeId: { $notIn: excludeRecipeIds }
+    whereQuery.$and.push({
+      id: { $notIn: excludeRecipeIds }
     })
   }
 
   if (includeRecipeIds) {
-    Object.assign(whereQuery, {
+    whereQuery.$and.push({
       id: { $in: includeRecipeIds }
     })
   }
@@ -301,10 +307,12 @@ app.get('/api/recipes', async (req, res) => {
     } else if (recipeTime === 60) {
       recipeTimeQuery = { $between: [31, 999] }
     }
-    Object.assign(whereQuery, {
+
+    whereQuery.$and.push({
       recipeTime: recipeTimeQuery
     })
   }
+
   console.log('Getting all recipes...')
 
   // Just fetch all the recipes
