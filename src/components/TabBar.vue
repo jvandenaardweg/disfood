@@ -39,7 +39,7 @@ export default {
   position: fixed;
   left: 0;
   right: 0;
-  width: 100%;
+  // width: 100%;
   z-index: 100;
   height: 4.9rem;
   bottom: 0;

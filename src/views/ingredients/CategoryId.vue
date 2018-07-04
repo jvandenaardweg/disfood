@@ -96,7 +96,6 @@ export default {
       }
     },
     handleChange (value) {
-      console.log('change', value)
       if (this.excludedIngredients.includes(value)) {
         this.$store.commit('filters/removeExcludedIngredient', value)
       } else {

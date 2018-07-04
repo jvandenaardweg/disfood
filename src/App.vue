@@ -56,7 +56,7 @@ body {
 
 .section {
   text-align: left;
-  border-bottom: 1px $gray-90 solid;
+  // border-bottom: 1px $gray-90 solid;
   padding-bottom: 2rem;
   margin-bottom: 1.5rem;
 

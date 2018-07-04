@@ -32,5 +32,18 @@ export default {
     } finally {
       commit('stopLoading')
     }
+  },
+  async searchIngredients ({ dispatch, commit, getters, rootGetters }, searchQuery) {
+    try {
+      commit('startLoading')
+      const ingredients = await fetch(`${ingredientsUrl}?search=${searchQuery}`).then(result => result.json())
+      return ingredients
+    } catch (error) {
+      const errorMessage = (error.response) ? error.response.data.message : 'We could not get the ingredients. Please try again later.'
+      commit('setError', errorMessage)
+      return error
+    } finally {
+      commit('stopLoading')
+    }
   }
 }

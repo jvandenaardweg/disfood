@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <recipe v-if="recipe" :recipe="recipe"></recipe>
-  </div>
+  <recipe v-if="recipe" :recipe="recipe"></recipe>
 </template>
 
 <script>
@@ -44,7 +42,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss">
-
-</style>

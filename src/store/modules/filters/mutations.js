@@ -24,6 +24,7 @@ export default {
   },
   resetExcludedIngredients (state) {
     Vue.set(state, 'excludedIngredients', [])
+    localStorage.setItem('excludedIngredients', state.excludedIngredients)
   },
   resetRecipeTime (state) {
     Vue.set(state, 'recipeTime', null)

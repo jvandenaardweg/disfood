@@ -14,12 +14,20 @@ export default {
       type: String,
       required: false,
       default: '#ffffff'
+    },
+    target: {
+      type: String
     }
   },
   methods: {
     handleClick (event) {
-      this.$router.go(-1)
-      // this.$router.go(-1) // TODO: this will not work with referral links
+      if (this.target) {
+        this.$router.push({
+          path: this.target
+        })
+      } else {
+         this.$router.go(-1)
+      }
     }
   }
 }

@@ -1,6 +1,8 @@
 <template>
   <ul class="list-group">
-    <li v-for="item in items" :key="item.id">
+    <li v-if="isLoading">Loading...</li>
+    <li v-if="!isLoading && !items.length">Geen ingrediënten gevonden. Probeer iets anders!</li>
+    <li v-if="items.length" v-for="item in items" :key="item.id">
       <label class="checkbox-inline">{{ item.name }}
         <input type="checkbox" name="item" :checked="selectedItems.includes(item.name)" :value="item.name" @change="handleChange" />
         <span class="checkbox-custom">
@@ -25,6 +27,9 @@ export default {
     },
     selectedItems: {
       type: Array
+    },
+    isLoading: {
+      type: Boolean
     }
   },
   methods: {

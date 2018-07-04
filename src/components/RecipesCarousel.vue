@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import SourceLogo from '@/components/SourceLogo'
 import Btn from '@/components/Btn'
 
@@ -44,9 +45,6 @@ export default {
     SourceLogo,
     Btn
   },
-  data: () => ({
-    scrollLeftPosition: 0
-  }),
   props: {
     title: {
       type: String,
@@ -60,9 +58,34 @@ export default {
     // Remember scroll position during page transitions
     this.$refs.scroller.scrollLeft = this.scrollLeftPosition
   },
+  data: () => ({
+    scrollLeftPosition: 0,
+    isLoading: null
+  }),
+  computed: {
+    ...mapGetters({
+      excludedIngredients: 'filters/excludedIngredients',
+      recipeTime: 'filters/recipeTime'
+    })
+  },
   methods: {
-    handleScroll (event) {
+    async handleScroll (event) {
       this.scrollLeftPosition = event.target.scrollLeft
+      this.scrollPercentage = Math.ceil(((this.scrollLeftPosition + window.innerWidth) / event.target.scrollWidth) * 100)
+
+      if (this.scrollPercentage > 80 && !this.isLoading) {
+        try {
+          this.isLoading = true
+          await this.$store.dispatch('recipes/getMore', {
+            ingredients: this.excludedIngredients,
+            recipeTime: this.recipeTime
+          })
+        } catch (err) {
+          console.log('ERROR getting more recipes')
+        } finally {
+          this.isLoading = false
+        }
+      }
     },
     resetScrollPosition () {
       this.$refs.scroller.scrollLeft = 0
@@ -71,7 +94,11 @@ export default {
   },
   watch: {
     recipes (newValue, oldValue) {
-      if (newValue) this.resetScrollPosition()
+      // Only reset the scroll position when we the new length is the initial total recipes we get from the API
+      // TODO: make 20 dynamic
+      if (newValue.length <= 20) {
+        this.resetScrollPosition()
+      }
     }
   }
 }

@@ -28,8 +28,10 @@ export default {
     isLoading: null
   }),
   mounted () {
-    console.log('get')
     this.getNewData()
+  },
+  activated () {
+    console.log('check if user has new filters')
   },
   computed: {
     ...mapGetters({
@@ -57,7 +59,6 @@ export default {
   },
   methods: {
     handleRecipeTimeChange (recipeTime) {
-      console.log(recipeTime)
       this.getNewData()
     },
     handleClickSupriseMe (event) {
@@ -70,7 +71,7 @@ export default {
           recipeTime: this.recipeTime
         })
       } catch (err) {
-        console.log(err)
+        console.log('ERROR getting more recipes', err)
       } finally {
         this.isLoading = false
       }
@@ -84,7 +85,7 @@ export default {
           recipeTime: this.recipeTime
         })
       } catch (err) {
-        console.log(err)
+        console.log('ERROR getting all recipes', err)
       } finally {
         this.isLoading = false
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="recipe">
-    <btn-back></btn-back>
+    <btn-back target="/recipes"></btn-back>
       <div class="recipe__image">
         <a :href="recipe.url">
           <source-logo name="Albert Heijn"></source-logo>

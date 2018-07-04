@@ -1,9 +1,7 @@
 <template>
-  <div class="recipes">
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
-  </div>
+  <keep-alive>
+    <router-view></router-view>
+  </keep-alive>
 </template>
 
 <script>
@@ -11,7 +9,3 @@ export default {
   name: 'recipes'
 }
 </script>
-
-<style lang="scss">
-
-</style>
