@@ -100,7 +100,7 @@ app.get('/api/recipes/:id', async (req, res) => {
 
 // Get's recipes by label ID
 app.get('/api/labels/:id/recipes', async (req, res) => {
-  const labelId = parseFloat(req.params.id)
+  const labelId = parseInt(req.params.id)
 
   const label = await Recipe.findAll({
     where: {
@@ -127,7 +127,7 @@ app.get('/api/labels/:id/recipes', async (req, res) => {
 
 // Get's label by ID
 app.get('/api/labels/:id', async (req, res) => {
-  const labelId = parseFloat(req.params.id)
+  const labelId = parseInt(req.params.id)
 
   const label = await Label.findById(labelId)
 
@@ -174,7 +174,7 @@ app.get('/api/ingredients/categories/:categoryId', async (req, res) => {
 app.get('/api/ingredients', async (req, res) => {
   let whereQuery = {}
 
-  const limit = (req.query.limit) ? parseFloat(req.query.limit) : 100
+  const limit = (req.query.limit) ? parseInt(req.query.limit) : 100
   const dirtyExcludedIngredients = req.query.excludedIngredients
   const dirtySearch = req.query.search
 
@@ -252,7 +252,7 @@ app.get('/api/recipes', async (req, res) => {
   }
   const limit = (req.query.limit) ? parseInt(req.query.limit) : 20
   const random = (req.query.random === "true") ? true : false
-  const recipeTime = (req.query.recipeTime) ? parseFloat(req.query.recipeTime) : null
+  const recipeTime = (req.query.recipeTime) ? parseInt(req.query.recipeTime) : null
   const order = (random) ? sequelize.random() : {}
 
   const dirtyExcludedIngredients = req.query.excludedIngredients
