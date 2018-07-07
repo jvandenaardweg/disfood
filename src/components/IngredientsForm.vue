@@ -47,7 +47,7 @@ export default {
           search: this.excludeIngredient
         })
         if (ingredientSuggestions && ingredientSuggestions.length) {
-          this.suggestions = ingredientSuggestions.map(ingredient => ingredient.singular).sort((a, b) => a.length - b.length)
+          this.suggestions = ingredientSuggestions.map(ingredient => ingredient.name).sort((a, b) => a.length - b.length)
         }
       }
     }, 500),
