@@ -1,7 +1,6 @@
 const flatMap = require('flatmap')
 
 function transformRecipe (recipe) {
-
   const ingredients = flatMap(recipe.ingredients, (ingredient) => {
     const singular = ingredient.description.singular
     const plural = ingredient.description.plural

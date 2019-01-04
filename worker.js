@@ -86,55 +86,35 @@ async function getRecipeById (recipeId) {
 // First, find all receipe ids
 
 async function getAll () {
-  const allRecipeIds = await getAllRecipesIds()
-  const totalRecipeIds = allRecipeIds.length
-  console.log(`We got ${totalRecipeIds} recipe Ids. Now we can use those Ids to request the full receipe.`)
+  const allRecipeSourceIds = await getAllRecipesIds()
+  const totalRecipeIds = allRecipeSourceIds.length
 
-  const excludeRecipeIds = await Recipe.findAll().then(recipes => recipes.map(recipe => recipe.sourceId))
-  console.log(`We already got ${excludeRecipeIds.length} recipes in our database.`)
+  console.log(`We got ${totalRecipeIds} recipe Ids from the source. We can use those Ids to request the full receipe.`)
 
-  const recipesIds = allRecipeIds.filter(id => !excludeRecipeIds.includes(id)) // Exclude the id's we already have
-  const totalNewRecipeIds = recipesIds.length
+  // Get an array with all the recipe source ID's we already have
+  // So we can determine if we need to add it to the database or not
+  const excludeRecipeIds = await Recipe.findAll().then(recipes => recipes.map(recipe => recipe.sourceRecipeId))
 
-  if (!totalNewRecipeIds) {
+  console.log(`We already got ${excludeRecipeIds.length} recipes in our database. We use these recipe source ID's to filter out recipes we already have.`)
+
+  const recipeSourceIdsToFetch = allRecipeSourceIds.filter(id => !excludeRecipeIds.includes(id)) // Exclude the id's we already have
+
+  console.log(`We end up with fetcing ${recipeSourceIdsToFetch.length} recipes from the source.`)
+
+  if (!recipeSourceIdsToFetch.length) {
     console.log('No new recipe Ids found. We stop!')
     return false
   } else {
-    console.log(`We only need to fetch ${recipesIds.length} recipe Ids. We already have the others in the database.`)
+    console.log(`We only need to fetch ${recipeSourceIdsToFetch.length} recipe Ids. We already have the others in the database.`)
 
     try {
       // Then, request every recipe
-      for (var i = 0; i < totalRecipeIds; i++) {
-        const recipeId = recipesIds[i]
+      for (var i = 0; i < recipeSourceIdsToFetch.length; i++) {
+        const recipeId = recipeSourceIdsToFetch[i]
+
+        // If it's a new recipe ID, we get the recipe from the API and we create the database entry
         const recipe = await getRecipeById(recipeId)
-        // const ingredients = recipe.ingredients
-        console.log(`Got recipe ${i + 1} from ${totalRecipeIds}: ${recipe.title}`)
-
-        // First, create the ingredients
-        // for (var x = 0; x < ingredients.length; x++) {
-        //   console.log('Create ingredient for ', ingredients[x].description.singular)
-        //   await Ingredient.findOrCreate({
-        //     where: {
-        //       singular: ingredients[x].description.singular
-        //     },
-        //     defaults: {
-        //       singular: ingredients[x].description.singular,
-        //       plural: ingredients[x].description.plural,
-        //       quantityUnitSingular: (ingredients[x].quantityUnit) ? ingredients[x].quantityUnit.singular : null,
-        //       quantityUnitPlural: (ingredients[x].quantityUnit) ? ingredients[x].quantityUnit.plural : null,
-        //       languageId: 'NL' // TODO: make dynamic based on source
-        //     }
-        //   })
-        //   .spread((ingredient, created) => {
-        //     if (created) {
-        //       console.log(`Ingredient ${ingredient.singular} saved in database.`)
-        //     } else {
-        //       console.log(`Ingredient ${ingredient.singular} is already in the database. Skipping.`)
-        //     }
-
-        //     return created
-        //   })
-        // }
+        console.log(`Got recipe ${i + 1} from ${recipeSourceIdsToFetch.length}: ${recipe.title}`)
 
         // Then create the recipe
         const createdRecipe = await createRecipe(recipe)
@@ -143,7 +123,7 @@ async function getAll () {
     } catch (err) {
       console.log('Error fetching recipes by id')
       console.log(err)
-    } 
+    }
   }
 
 }
@@ -160,7 +140,7 @@ function createRecipe (recipe) {
     if (created) {
       console.log(`Recipe ${recipe.id} saved in database.`)
     } else {
-      console.log(`Recipe ${recipe.id} is already in the database. Skipping.`)
+      console.log(`Did not create a recipe entry for ${recipe.id}, because it is already in the database. Skipping.`)
     }
 
     return created
