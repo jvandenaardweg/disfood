@@ -1,9 +1,7 @@
-Array.prototype.flatMap = function(array) {
-  return Array.prototype.concat.apply([], this.map(array))
-}
+const flatMap = require('flatmap')
 
 function transformRecipe (recipe) {
-  const ingredients = recipe.ingredients.flatMap(ingredient => {
+  const ingredients = flatMap(recipe.ingredients, (ingredient) => {
     const singular = ingredient.description.singular
     const plural = ingredient.description.plural
     if (singular && plural) return [singular.toLowerCase(), plural.toLowerCase()]
