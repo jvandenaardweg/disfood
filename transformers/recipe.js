@@ -1,12 +1,13 @@
 const flatMap = require('flatmap')
 
 function transformRecipe (recipe) {
+
   const ingredients = flatMap(recipe.ingredients, (ingredient) => {
     const singular = ingredient.description.singular
     const plural = ingredient.description.plural
     if (singular && plural) return [singular.toLowerCase(), plural.toLowerCase()]
-    if (!singular) return [plural.toLowerCase()]
-    if (!plural) return [singular.toLowerCase()]
+    if (!singular && plural) return [plural.toLowerCase()]
+    if (!plural && singular) return [singular.toLowerCase()]
   })
 
   const ingredientsText = recipe.ingredients.map(ingredient => ingredient.completeText)

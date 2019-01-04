@@ -72,7 +72,11 @@ async function doRequests (url, page) {
 async function getRecipeById (recipeId) {
   const url = process.env.RECIPE_BASE_URL + recipeId
   console.log(`Fetching recipe Id: ${recipeId} @ ${url}`)
-  const recipe = await fetch(url)
+  const recipe = await fetch(url, {
+    headers: {
+      'Authorization': `Basic ${process.env.ACCESS_TOKEN}` // We probably only need this access token once if we keep the recepies up to date every day
+    }
+  })
   .then(result => result.json())
   // await sleep(100) // Rate limit requests every X milliseconds
   return recipe
