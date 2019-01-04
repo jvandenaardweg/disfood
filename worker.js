@@ -25,9 +25,9 @@ async function getTotalRecipes () {
   return totalRecipes
 }
 
-async function getAllRecipesIds () {
+async function getAllRecipeSourceIds () {
   console.log('Determining total recipes on AH...')
-  let recipesIds = []
+  let recipeSourceIds = []
 
   const totalRecipes = await getTotalRecipes()
   const totalPages = Math.ceil(totalRecipes / recipesPerPage)
@@ -42,9 +42,9 @@ async function getAllRecipesIds () {
       const foundRecipeIds = await doRequests(RECIPES_SEARCH_URL, page)
       console.log(`Received ${foundRecipeIds.length} recipes. We continue...`, `${page} from ${totalPages}`)
       // await sleep(1000)
-      recipesIds.push(...foundRecipeIds)
+      recipeSourceIds.push(...foundRecipeIds)
     }
-    return recipesIds
+    return recipeSourceIds
   } catch (err) {
     console.log('Error fetching all recipe ids', err)
   }
@@ -86,10 +86,9 @@ async function getRecipeById (recipeId) {
 // First, find all receipe ids
 
 async function getAll () {
-  const allRecipeSourceIds = await getAllRecipesIds()
-  const totalRecipeIds = allRecipeSourceIds.length
+  const allRecipeSourceIds = await getAllRecipeSourceIds()
 
-  console.log(`We got ${totalRecipeIds} recipe Ids from the source. We can use those Ids to request the full receipe.`)
+  console.log(`We got ${allRecipeSourceIds.length} recipe Ids from the source. We can use those Ids to request the full receipe.`)
 
   // Get an array with all the recipe source ID's we already have
   // So we can determine if we need to add it to the database or not
@@ -103,26 +102,33 @@ async function getAll () {
 
   if (!recipeSourceIdsToFetch.length) {
     console.log('No new recipe Ids found. We stop!')
-    return false
+    process.exit()
   } else {
     console.log(`We only need to fetch ${recipeSourceIdsToFetch.length} recipe Ids. We already have the others in the database.`)
 
     try {
-      // Then, request every recipe
+      // Then, request every (new) recipe
       for (var i = 0; i < recipeSourceIdsToFetch.length; i++) {
+
+        // Exist the process when we created all recipes
+        if ((i + 1) === recipeSourceIdsToFetch.length) {
+          console.log('Succesfully saved all new recipes in the database. We stop!')
+          process.exit()
+        }
+
         const recipeId = recipeSourceIdsToFetch[i]
 
         // If it's a new recipe ID, we get the recipe from the API and we create the database entry
         const recipe = await getRecipeById(recipeId)
-        console.log(`Got recipe ${i + 1} from ${recipeSourceIdsToFetch.length}: ${recipe.title}`)
+        console.log(`Got recipe ${i + 1} from ${recipeSourceIdsToFetch.length}: "${recipe.title}" (${recipe.id})`)
 
         // Then create the recipe
-        const createdRecipe = await createRecipe(recipe)
-        if (createdRecipe) console.log(`Saved ${recipe.id} in database.`)
+        await createRecipe(recipe)
       }
     } catch (err) {
       console.log('Error fetching recipes by id')
       console.log(err)
+      process.exit()
     }
   }
 
@@ -138,7 +144,7 @@ function createRecipe (recipe) {
   })
   .spread((user, created) => {
     if (created) {
-      console.log(`Recipe ${recipe.id} saved in database.`)
+      console.log(`Saved recipe in database: "${recipe.title}" (${recipe.id}).`)
     } else {
       console.log(`Did not create a recipe entry for ${recipe.id}, because it is already in the database. Skipping.`)
     }
